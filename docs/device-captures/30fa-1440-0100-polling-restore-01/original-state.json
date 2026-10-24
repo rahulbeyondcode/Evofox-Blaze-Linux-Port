@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "identity": {
+    "vid": "30fa",
+    "pid": "1440",
+    "bcdDevice": "0100",
+    "interface": "01",
+    "report_descriptor_sha256": "0ec3eb2dc293bd8edcb490f5cee9ab272ebec8f4e0edc5f9f365f1bab53b2018",
+    "report_id": 7,
+    "report_length": 8
+  },
+  "base": "0x0018",
+  "length": 8,
+  "field": "polling",
+  "value": 500,
+  "before_hex": "19 3f 32 00 f3 ff 00 00",
+  "after_hex": "19 3f 32 00 f3 ff 01 00",
+  "before_sha256": "ddfde5c1009180c7e1b5344cf6ebf2c20b2248778c5dc11e92d8fe57611dc46d",
+  "after_sha256": "484b0e256a4e61f59f71b680e1645709b92131520c47252d87441bebf51118ba",
+  "complete_configuration_backup": false
+}

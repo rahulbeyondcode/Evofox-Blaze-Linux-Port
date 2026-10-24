@@ -83,6 +83,31 @@ def decode_dpi_selector(block: bytes) -> int:
     return block[0] & 7
 
 
+def decode_state_block(block: bytes):
+    """Interpret collected base-0018 bytes, never a standalone feature reply.
+
+    Stage, enable-mask, and polling-code positions follow the exact Blaze
+    serializer. Frequency names additionally follow the independent A825
+    reference's mapping; no physical CPI or polling measurement is implied.
+    """
+    selector = decode_dpi_selector(block)
+    divisor = block[6]
+    return {
+        "collected_hex": block.hex(" "),
+        "dpi_stage_selector_candidate": selector,
+        "dpi_cpi": None,
+        "dpi_enabled_mask_hex": f"{block[1]:02x}",
+        "enabled_stage_indices_candidate": [i for i in range(6) if block[1] & (1 << i)],
+        "unassigned_enable_mask_bits_hex": f"{block[1] & 0xC0:02x}",
+        "polling_divisor_raw": divisor,
+        "usb_speed_index_candidate": {0: 3, 1: 2, 3: 1, 7: 0}.get(divisor),
+        "polling_hz_candidate": {0: 1000, 1: 500, 3: 250, 7: 125}.get(divisor),
+        "polling_frequency_measured": False,
+        "opaque_bytes_hex": {str(i): f"{block[i]:02x}" for i in (2, 3, 4, 5, 7)},
+        "complete_configuration_backup": False,
+    }
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("region", choices=OBSERVED_READS)

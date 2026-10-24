@@ -142,7 +142,9 @@ The read loop starts at `0x413ac0`. Its static sequence is:
 
 Here `aa AA` is the supplied base, `ii` the index, and `nn` length minus one.
 This **uses SET_REPORT**, including zero-data preparation, so it must not be
-exposed as a harmless read or run before those phases' side effects are known.
+exposed as a harmless GET. The fixed `0x0018` path has now been independently
+corroborated and exercised with explicit staging-risk consent; other ranges
+remain unavailable to hardware. This does not prove every firmware side effect.
 The original code stores API return values without checking them before copying
 the response; a Linux implementation must not copy that error-handling behavior.
 
@@ -167,15 +169,18 @@ caller Evidence IDs and exact arguments. No incoming xrefs were found for
 path (`0x44e4e0` checks the Windows mixer). None was observed executing.
 
 Do not invoke the whole `0x44cc10` path as a read: `0x4325f0` emits a separate
-command `07 14 ...` through SetFeature immediately afterward. The offline
-preview models only `0x413ac0` and its preparation helper, not that caller.
+command `07 14 ...` through SetFeature immediately afterward. It also calls
+`0x432030` at `0x44cd2e`, sending a command `07 13 ...` built from cached
+lighting globals, not lighting values decoded from the returned block. The
+offline preview models only `0x413ac0` and its preparation helper, not that caller.
 
 For each observed eight-byte block, the helper emits **18 SET_FEATUREs,
 8 GET_FEATUREs, and 36 ms of explicit sleeps** (USB time is additional).
 No phase `09` occurs in this helper; the actual writer uses it. This supports
 an uncommitted-buffer interpretation of preparation, but firmware side effects
 cannot be proved from host code. Zero-data phase `03` is still a write-shaped
-transaction and remains unavailable to hardware.
+transaction. The dedicated experimental state transport permits only the exact
+`0x0018`/8-byte sequence, never arbitrary preparation addresses or a commit in a read.
 
 These callers do not establish a full settings read/backup map. Neither the
 comparison blocks' purpose nor arbitrary addresses are safe to infer or sweep.
@@ -186,6 +191,143 @@ without executing the application:
 ```sh
 objdump -d -Mintel --start-address=0x413910 --stop-address=0x413c0e 'Gaming Mouse 3.0.exe'
 ```
+
+## Fixed state read and first reversible setting change
+
+The independently reviewed [ANKO capture](vendor-reference.md#independent-capture-and-implementation-review)
+corroborates the exact reader: eight zero-data phase-03 frames, phase 00,
+eight phase-05/GET pairs, and final phase 00, **without phase 09**. Returned
+bytes match the preceding committed nonzero block despite the zero preparation.
+The USB device/configuration descriptor bytes match this Blaze's envelope;
+the public capture does not contain its HID report descriptor. Full provenance,
+packet numbers, and limitations are in the
+[capture fixture](../tests/fixtures/anko-read-corroboration.json).
+
+With separate user consent, `evofox_blaze.state_read` collected
+`19 3f 32 00 f3 ff 01 00` from the attached Blaze. The
+[journal](device-captures/30fa-1440-0100-state-read-01/state-read.jsonl)
+contains exactly 18 SETs / 8 GETs and a complete response for every request.
+It is a partial state capture, not a complete configuration backup.
+
+The [state field fixture](../tests/fixtures/vendor-state-fields.json) maps:
+
+| Block byte | Host-code interpretation | Captured value |
+|---|---|---|
+| 0 & `07` | DPI-stage index; not a physical CPI value | `1` |
+| 1 & `3f` | Six-stage enable mask | `3f` |
+| 6 | Polling divisor code at `0x6718a2` | `1` |
+
+The loader maps `USB_SPEED` indexes `3,2,1,0` to divisor codes `0,1,3,7`
+(`0x42bcbb`–`0x42bcee`); `0x423e32` places that code in byte 6. The independent
+reference labels these as 1000/500/250/125 Hz. Labels are candidates, not a
+measurement of actual USB event frequency. Other bytes remain opaque.
+
+The constrained `config_write` backend changes either the already-enabled
+DPI-stage index (byte 0) or polling code (byte 6), preserving all other freshly
+read bytes. Before any setting-data frame, it writes/fsyncs a private
+`original-state.json`, fsyncs its directory, and validates the file again.
+It uses the exact writer's eight phase-03 frames, waits 4 ms, phase 09,
+waits 2 ms, then phase 00 **with base retained**. It reads back the whole block.
+No phase `10`, command `20`, reset, scan, or guessed activation is appended.
+
+The separately approved polling test and restore both succeeded:
+
+| Operation | Before | After / verified readback |
+|---|---|---|
+| [Polling code `1 → 0`](device-captures/30fa-1440-0100-polling-test-01/configuration.jsonl) | `19 3f 32 00 f3 ff 01 00` | `19 3f 32 00 f3 ff 00 00` |
+| [Explicit restore](device-captures/30fa-1440-0100-polling-restore-01/configuration.jsonl) | `19 3f 32 00 f3 ff 00 00` | `19 3f 32 00 f3 ff 01 00` |
+
+Each operation issued 46 SETs / 16 GETs, with exactly one settings commit.
+The complete original block was restored, not just the polling byte. This is
+stored-byte readback evidence, **not** proof of physical polling rate, immediate
+runtime activation, or power-cycle persistence. The DPI-stage write API has
+offline coverage but has not yet been exercised as a hardware change.
+
+Restore requires a fresh read matching either the recorded post-change block
+or the already-restored original. It refuses intervening edits. Failures stop
+without retries, cleanup writes, or blind rollback; an interrupted commit can
+leave uncertain state and requires review. Journals/backup files are exclusive,
+and all feature intents are flushed/fsynced before I/O. Current tools also hold
+a nonblocking cooperative hidraw lock; this does not detach the kernel driver
+or prevent non-cooperating software from accessing the interface.
+
+`state_capture` and `config_capture` validate exact operation order and reject
+short results, extra commits, partial journals, altered fields and false
+completion/backup claims. The GTK app can inspect all three journal types and
+offers separately confirmed read/polling/restore actions; it never contacts the
+mouse on startup or while opening saved evidence.
+
+## Lighting: recovered brightness field, no hardware readback yet
+
+The exact Blaze executable maps the INI field `LED_BRIGHT` to global
+`0x671d78`: key load at `0x42b5d7`, integer conversion at `0x42b5fe`, and
+global assignment at `0x42b606`. The reverse path formats that global at
+`0x42d0c6` and writes the `LED_BRIGHT` key through `0x42d0ff`.
+These are **file/cached values**, not observations of current device settings.
+The [brightness fixture](../tests/fixtures/lighting-brightness-observations.json)
+records the app hash, source sites, checked instruction bytes, and synthetic
+golden examples; `tools/analysis-plans/lighting-brightness.json` bounds the queries.
+
+The outbound builder `0x432030` sets report ID `07`, command `13`, writes
+`LED_BRIGHT & 7` into **byte 5** (`0x4320cd`–`0x4320dd`), and sends the shared
+report via SetFeature at `0x432136`. It clears byte 5's upper five bits rather
+than preserving them. The remaining command bytes include other host state:
+changing brightness alone does not establish that replaying the entire command
+is safe. No brightness percentage, visual direction, hardware-valid level range,
+or persistence is inferred from the three-bit host representation.
+
+`evofox_blaze.lighting` provides **offline-only** field replacement on a supplied
+eight-byte outbound `07 13` frame, preserving every other byte. It rejects
+unobserved upper brightness bits, silent truncation, and other report/command
+shapes. Its examples are synthetic; byte-level reversibility is not a device
+restore test. There is no hardware write function or way to generate context
+from guessed defaults in this module.
+
+**Readback/restore remains blocked.** None of the currently traced direct
+GetFeature consumers establishes a current brightness value. The `0x0018`
+reader callers consume a DPI selector, and the `0x44cc10` lighting send uses
+cached state instead of decoding brightness from that read. Neither the saved
+standalone reply nor the shipped INI files is a valid original-value backup.
+Do not extend the fixed read ranges or enable SET_REPORT preparation to obtain
+a speculative lighting backup.
+
+### Outbound storage candidate, not an approved read address
+
+The [storage fixture](../tests/fixtures/lighting-storage-observations.json)
+tracks the two serializers' writer arguments:
+
+| Serializer entry | Writer call | Base / length | Brightness-containing byte | Logical sum |
+|---|---|---|---|---|
+| `0x41a410` | `0x41cec0` | `0x0020` / 32 | Index 31 | `0x003f` |
+| `0x422070` | `0x424dcf` | `0x0038` / 8 | Index 7 | `0x003f` |
+
+The first base advances from zero by `8 + 24`; the second by seven increments
+of 8. This agreement is about **outbound writer argument arithmetic**, not a
+confirmed firmware address, safe read region, or profile-bank layout. No direct
+incoming calls were found for the first entry; the second has calls at
+`0x43d438`, `0x44841a`, and `0x44f00d`. Indirect reachability is unresolved.
+
+If host global `0x66b00f` is nonzero, both paths serialize:
+
+```text
+low_byte(((LED_BRIGHT << 4) & 0x70) + cached_companion)
+```
+
+With that guard cleared they serialize zero. The companion is global
+`0x671f28`, corresponding to the file key `LED_USER6_B` in the seven-entry
+`LED_USER` table. It is **added**, not ORed, and the serializer does not mask it
+to four bits. For example brightness code `1` plus companion `16` produces
+`20`, not `10`. Without bounding the companion, extracting bits 4–6 is not a
+reliable inverse of the serializer. File parsing alone is not such a bound.
+
+The host file loader `0x42a880` builds section `Config` plus its second stack
+argument formatted in decimal. This selects cached per-section state, not a
+demonstrated device profile bank or stride. No per-profile address is invented.
+
+`evofox_blaze.lighting --storage-companion ... --storage-mode ...` models this
+arithmetic from explicit synthetic inputs. It emits one byte and limitations,
+**not a packet, readback decoder, or device backup**. The source-observed read
+preview still has only its original five regions; `0x003f` is not added.
 
 ## A825 comparison — hypothesis for Blaze, not hardware commands
 
@@ -207,13 +349,29 @@ Matching USB IDs, signer metadata, report ID, and frame layout make A825 a
 useful lead. They do **not** validate addresses, storage capacity, timing,
 safe ranges, or persistence on the Blaze. Do not replay these frames.
 
+## Input-monitoring coverage
+
+Device detection currently means matching the configuration interface when an
+explicit probe/read/configuration action is requested. Configuration feature
+reads do **not** monitor clicks or identify the physical button being pressed.
+No live input-event listener, button attribution, grab or injection has been
+implemented or exercised in this session.
+
+The captured interface-0 descriptor declares five mouse-button bits in input
+report `01`; interface 1 also declares vendor input report `06`. Descriptor
+declarations alone do not map every retail button or establish which DPI,
+lighting or rapid-fire controls emit separate host-visible events. Those need
+a separately authorized, device-specific read-only test. The existing UI's
+button labels are not a substitute for that evidence.
+
 ## Unresolved, in implementation order
 
 1. Validate the static profile candidate against a controlled device observation;
    assign the remaining response bits only with evidence, not plausibility.
-2. Establish the recovered reader's firmware-side preparation effects before
-   allowing its SET_REPORT transactions; fixed source ranges are now recorded.
-3. Which addresses/fields control lighting, and how are original values restored?
+2. Expand read/backup coverage only with evidence and separate consent. The fixed
+   state read and polling roundtrip are exercised; arbitrary reads stay disabled.
+3. Brightness is statically mapped to command `13`, byte 5, mask `07`;
+   establish a device original-value readback and restore path before any write.
 4. What are command `16`, commit/status semantics, error responses, and delays?
 5. Map DPI indexes, polling indexes, profiles, and buttons using application
    data flow plus device readback. Establish persistence by power-cycle testing.

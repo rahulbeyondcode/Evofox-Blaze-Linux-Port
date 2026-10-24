@@ -66,7 +66,11 @@ def decode_status_capture(path: Path):
     This validates recording structure, not its authenticity or the firmware's
     behavior. No new device observations are acquired here.
     """
-    raw = read_evidence_file(path)
+    return decode_status_journal(read_evidence_file(path))
+
+
+def decode_status_journal(raw: bytes):
+    """Validate already-loaded saved bytes; not an input stream or HID read."""
     events = [json.loads(line) for line in raw.splitlines() if line.strip()]
     expected = ["session", "handle_validated", "get_feature_intent", "get_feature_response", "complete"]
     if (any(not isinstance(event, dict) for event in events)

@@ -1,0 +1,71 @@
+{
+  "kind": "static-analysis-fixture-not-a-device-capture",
+  "application_sha256": "9eec736ee629ff9d0684f787a270afe86d064fdcf23e7eb11f921dc7844eee55",
+  "rea_version": "6.7.0",
+  "ghidra_version": "12.1.4",
+  "source_run": "lighting-brightness-01",
+  "source_plan": "tools/analysis-plans/lighting-brightness.json",
+  "source_evidence": {
+    "pseudocode-0x432030.json": "ev_7187f7b48f8ec78ad6234b4b73cbb0051dae44d1d5fd469dfec38daf914bb59d",
+    "pseudocode-0x44cc10.json": "ev_d9c83c3fb645de79c82a59719f4f31752afa8ea55e4688d6d96fa57213daaaaa",
+    "pseudocode-0x43d970.json": "ev_0d4fa87b1294c364582066e6f3ec579438c98b8502f6f62c47660e0c0e96201a",
+    "instruction-0x42b606.json": "ev_5fc4609842afcc6d495c7106c8410d7a3e049bdb2c4476acd65f065b664eab3f",
+    "instruction-0x4320d2.json": "ev_16db9ea80bae61a3e238e5f46b8467f25b5c00d8f79b147604a450bdbc1103d2",
+    "instruction-0x4320dd.json": "ev_fb580da4869b945a85881c6b8be428badfd67a463bed7cddad8e8eea7975efa8",
+    "xrefs-0x671d78.json": "ev_46be585289ef03f8f9750fed13cb92622ea3a2ab707e60823f0ef86ba99eb23e",
+    "xrefs-0x432030.json": "ev_7fdfb7fe838d1d2191957a2f55b8c21cf74e90f90dd33cb4a2fd47af32fef878",
+    "xrefs-0x413ac0.json": "ev_75676cddf866c54f23a395bdaec5bada3229990ff68b1fb04b43fceea9c1e230"
+  },
+  "brightness": {
+    "ini_key": "LED_BRIGHT",
+    "global": "0x671d78",
+    "key_load_site": "0x42b5d7",
+    "integer_conversion_site": "0x42b5fe",
+    "global_assignment_site": "0x42b606",
+    "key_save_site": "0x42d0ef",
+    "file_write_site": "0x42d0ff",
+    "builder": "0x432030",
+    "observed_builder_call_sites": ["0x44cd2e", "0x44f90c", "0x44f990", "0x44f9f2"],
+    "report_id": 7,
+    "command": 19,
+    "byte_offset": 5,
+    "mask": 7,
+    "upper_bits_cleared_by_builder": true,
+    "set_feature_site": "0x432136"
+  },
+  "instruction_bytes": {
+    "0x42b5d7": "681c516000",
+    "0x42b606": "a3781d6700",
+    "0x43204e": "c682d810670013",
+    "0x4320cd": "a1781d6700",
+    "0x4320d2": "83e007",
+    "0x4320dd": "8882d8106700",
+    "0x432136": "e888f61900"
+  },
+  "readback_assessment": {
+    "caller": "0x44cc10",
+    "command13_call_site": "0x44cd2e",
+    "source": "Cached globals after consuming a DPI selector from a command-18 read",
+    "brightness_readback_established": false,
+    "original_device_value_known": false,
+    "restore_path_established": false
+  },
+  "synthetic_examples": [
+    {
+      "input_hex": "07 13 81 92 a3 04 b5 c6",
+      "brightness_code": 2,
+      "output_hex": "07 13 81 92 a3 02 b5 c6"
+    },
+    {
+      "input_hex": "07 13 81 92 a3 00 b5 c6",
+      "brightness_code": 7,
+      "output_hex": "07 13 81 92 a3 07 b5 c6"
+    }
+  ],
+  "limitations": [
+    "Synthetic command examples are neither device captures nor hardware-approved commands",
+    "The host masks to three bits; hardware brightness levels, percentages, visual direction and persistence are unverified",
+    "Other command bytes remain opaque context and must not be invented from defaults",
+    "INI values, the standalone GET reply, and byte-level reversal do not establish a device backup or restore"
+  ]
+}

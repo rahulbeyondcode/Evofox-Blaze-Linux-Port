@@ -1,0 +1,71 @@
+{
+  "kind": "static-analysis-fixture-not-a-device-capture",
+  "application_sha256": "9eec736ee629ff9d0684f787a270afe86d064fdcf23e7eb11f921dc7844eee55",
+  "rea_version": "6.7.0",
+  "ghidra_version": "12.1.4",
+  "source_run": "lighting-storage-01",
+  "source_plan": "tools/analysis-plans/lighting-storage.json",
+  "source_evidence": {
+    "pseudocode-0x41a410.json": "ev_bb1aef113c6a8fdb7d3ffc70f1a22661cc8bf95b409a11ff2804ad1def2092d9",
+    "pseudocode-0x422070.json": "ev_4c1603b7dd3456d34089b5719646087cb11ac79250e64b2c0a5a9e385926795f",
+    "pseudocode-0x42a880.json": "ev_a39bcbc6785ce3994d80ae9c679a95eda2e154ac6c3895e6ef2905cdf53c7c0d",
+    "xrefs-0x41a410.json": "ev_5b39f94e57d5639be44b01280b88cceffcf5c4009b5becfdadef0a1c3a4708d4",
+    "xrefs-0x422070.json": "ev_4ff293548d6a441d369428ebf45530ec20a6d42d0e0bd05751cb8023ad938091",
+    "xrefs-0x42a880.json": "ev_3574f66dfb837a76d7c183577822b050240cd1ef9c734ab4b864b903005d7ff9",
+    "instruction-0x424d8b.json": "ev_467df5e0c8ce78e33920f74421574db728926885999a04aa2cc135b729e7f741",
+    "instruction-0x424dcf.json": "ev_b411673a15ed33943f82436672686447ae03b8232a721c3344d5be6b76d47bd3",
+    "instruction-0x41cec0.json": "ev_874d5d0fa0dbdb00c1fba41a113ddc913597160ddea04b209d18f20ae3c00d10",
+    "instruction-0x42b996.json": "ev_c1e42bee45e50d507cfbd2520e04a280b1828216ae2a46a40882e597368d0018"
+  },
+  "mode_guard_global": "0x66b00f",
+  "brightness_global": "0x671d78",
+  "companion_global": "0x671f28",
+  "enabled_expression": "low_byte(((LED_BRIGHT << 4) & 0x70) + companion)",
+  "disabled_byte": 0,
+  "candidate_logical_byte": 63,
+  "writer": "0x413a10",
+  "serializer_paths": [
+    {
+      "entry": "0x41a410",
+      "initial_base": 0,
+      "base_increments": [8, 24],
+      "writer_base": 32,
+      "length": 32,
+      "brightness_byte_index": 31,
+      "call_site": "0x41cec0",
+      "incoming_direct_call_sites": []
+    },
+    {
+      "entry": "0x422070",
+      "initial_base": 0,
+      "base_increments": [8, 8, 8, 8, 8, 8, 8],
+      "writer_base": 56,
+      "length": 8,
+      "brightness_byte_index": 7,
+      "call_site": "0x424dcf",
+      "incoming_direct_call_sites": ["0x43d438", "0x44841a", "0x44f00d"]
+    }
+  ],
+  "host_file_context": {
+    "loader": "0x42a880",
+    "profile_argument": 2,
+    "section_prefix": "Config",
+    "section_construction_sites": ["0x42aadb", "0x42aaf0"],
+    "companion_key": "LED_USER6_B",
+    "companion_assignment_site": "0x42b996",
+    "limitation": "Cached per-section file state is not a device profile-bank mapping or a backup"
+  },
+  "synthetic_examples": [
+    {"code": 4, "companion": 0, "mode_enabled": true, "byte_hex": "40", "isolated": true},
+    {"code": 4, "companion": 15, "mode_enabled": true, "byte_hex": "4f", "isolated": true},
+    {"code": 4, "companion": 16, "mode_enabled": true, "byte_hex": "50", "isolated": false},
+    {"code": 4, "companion": -1, "mode_enabled": true, "byte_hex": "3f", "isolated": false},
+    {"code": 4, "companion": 0, "mode_enabled": false, "byte_hex": "00", "isolated": false}
+  ],
+  "limitations": [
+    "Candidate logical byte derives from outbound writer arguments; no read at this byte was observed",
+    "Host addition is not bitwise OR and the companion is not masked in the serializer",
+    "No firmware address, profile-bank stride, preparation safety, hardware readback or restore is established",
+    "No hardware read range is expanded by this fixture"
+  ]
+}

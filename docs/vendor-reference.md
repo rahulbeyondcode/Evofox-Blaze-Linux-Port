@@ -59,6 +59,36 @@ state. The UI's sixteen lighting labels do not establish sixteen implemented
 device modes. Profile labels and key defaults contain template inconsistencies.
 Preserve original configuration bytes before deciding their text encoding.
 
+## Independent capture and implementation review
+
+The original [OpenRGB ANKO request #3551](https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3551)
+publishes a [USB capture](https://gitlab.com/CalcProgrammer1/OpenRGB/uploads/a3d265c6bea632625982e96b6227c5d6/USB_GAMING_MOUSE_KM43243952.pcapng)
+for a **different physical product**, ANKO KM43243952. Reviewed during this
+bring-up, the 284,884-byte file has SHA-256
+`db3a3ba224069226ce75d9ded8a37d9363e71deb15737d749a2f951ad637c9c8`.
+Its USB device/configuration descriptors match the captured Blaze envelope;
+no HID report descriptor was observed. Packets 1943–1995 corroborate the
+source-derived eight-byte read and contain no commit in that read. The returned
+bytes match the preceding committed block, not the staged zeros.
+
+The focused [fixture](../tests/fixtures/anko-read-corroboration.json) preserves
+packet numbers and technical facts; the full third-party capture stays outside
+Git. Recheck it without hardware or executing downloaded code:
+
+```sh
+python3 -m tools.audit_public_capture --capture <downloaded.pcapng>
+```
+
+An existing [Phantom Air implementation](https://github.com/Navadeep-Reddy/evofox-phantom-air-linux)
+was reviewed at commit `8fe57c3121c4882899adbb88a3aa4e4c7067354a`, pinned by
+file hashes in the fixture. It includes the same ANKO capture, verified against
+the original OpenRGB upload; it is not independent proof for the attached Blaze.
+Importantly, its `protocol.py` appends phase `09` to reads while both our exact
+Blaze reader and the captured read do **not**. That behavior was not imported.
+No external application, hardware test, install script, or reference driver
+was executed. Polling labels are additionally informed by its code; real
+event frequency and runtime/persistent-state equivalence remain unmeasured.
+
 ## A825 comparison
 
 Official controller site: <https://www.instant-sys.com/>
@@ -86,6 +116,8 @@ These are family candidates, not Blaze limits or confirmed index encodings.
 Do not infer capacity from ambiguous `32kb`, `EEP_CAP=4`, a 16-bit address,
 or a third party's capture-size estimate.
 
-Related device lead: [libratbag GM320 issue 1795](https://github.com/libratbag/libratbag/issues/1795).
-Its contents and upstream support status must be checked again before relying
-on them. The old broad “no implementation found” claim is not a current fact.
+The [libratbag GM320 request 1795](https://github.com/libratbag/libratbag/issues/1795)
+was also rechecked: it is open, has no comments, and reports the same VID/PID
+and an A825 chip photo. Its capture-size/address guesses are not a protocol
+specification. There is now a concrete related implementation above; the old
+broad “no implementation found” claim must not be reused.

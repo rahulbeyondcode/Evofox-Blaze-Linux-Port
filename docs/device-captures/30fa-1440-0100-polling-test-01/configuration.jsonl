@@ -1,0 +1,166 @@
+{"timestamp": "2026-10-24T20:38:18.232853+00:00", "event": "config_session", "identity": {"vid": "30fa", "pid": "1440", "bcdDevice": "0100", "interface": "01", "report_descriptor_sha256": "0ec3eb2dc293bd8edcb490f5cee9ab272ebec8f4e0edc5f9f365f1bab53b2018", "report_id": 7, "report_length": 8}, "field": "polling", "value": 1000, "operation": "change", "accepted_write_risk": true, "scope": "Base 0018, 8 bytes only; no full-device backup"}
+{"timestamp": "2026-10-24T20:38:18.246684+00:00", "event": "handle_validated", "identity": {"vid": "30fa", "pid": "1440", "bcdDevice": "0100", "interface": "01", "report_descriptor_sha256": "0ec3eb2dc293bd8edcb490f5cee9ab272ebec8f4e0edc5f9f365f1bab53b2018", "report_id": 7, "report_length": 8}, "bus": 3}
+{"timestamp": "2026-10-24T20:38:18.249669+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 1, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 00 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.253137+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 1, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 00 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.256415+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.261771+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 2, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 01 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.265014+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 2, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 01 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.268308+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.273630+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 3, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 02 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.277100+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 3, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 02 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.280032+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.285273+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 4, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 03 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.288710+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 4, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 03 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.292077+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.297288+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 5, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 04 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.300654+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 5, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 04 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.303853+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.309263+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 6, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 05 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.312282+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 6, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 05 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.315467+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.320877+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 7, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 06 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.324487+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 7, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 06 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.327678+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.333294+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 8, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 07 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.336745+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 8, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 07 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.340256+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.345300+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.350997+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 9, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 00 00 18 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.354789+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 9, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 00 00 18 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.359811+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 10, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 00 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.363106+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 10, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 00 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.366243+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.371611+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 11, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.375854+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 11, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 19 58 09 1b 00 23 7b"}
+{"timestamp": "2026-10-24T20:38:18.381811+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 12, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 01 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.385349+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 12, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 01 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.388781+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.394036+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 13, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.397745+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 13, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 3f 58 09 1b 00 23 7b"}
+{"timestamp": "2026-10-24T20:38:18.400704+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 14, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 02 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.404140+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 14, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 02 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.407417+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.412909+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 15, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.416600+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 15, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 32 58 09 1b 00 23 7b"}
+{"timestamp": "2026-10-24T20:38:18.419719+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 16, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 03 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.423123+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 16, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 03 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.426469+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.431451+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 17, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.434773+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 17, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 00 58 09 1b 00 23 7b"}
+{"timestamp": "2026-10-24T20:38:18.438082+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 18, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 04 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.441475+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 18, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 04 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.444386+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.449614+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 19, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.453079+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 19, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 f3 58 09 1b 00 23 7b"}
+{"timestamp": "2026-10-24T20:38:18.456411+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 20, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 05 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.459478+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 20, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 05 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.462595+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.467969+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 21, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.471650+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 21, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 ff 58 09 1b 00 23 7b"}
+{"timestamp": "2026-10-24T20:38:18.476863+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 22, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 06 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.480288+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 22, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 06 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.483927+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.489345+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 23, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.492642+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 23, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 01 58 09 1b 00 23 7b"}
+{"timestamp": "2026-10-24T20:38:18.495766+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 24, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 07 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.499254+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 24, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 07 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.502548+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.507518+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 25, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.511108+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 25, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 00 58 09 1b 00 23 7b"}
+{"timestamp": "2026-10-24T20:38:18.514824+00:00", "event": "state_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.520397+00:00", "event": "state_feature_intent", "phase": "before", "ordinal": 26, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.523490+00:00", "event": "state_feature_result", "phase": "before", "ordinal": 26, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.530360+00:00", "event": "config_backup_durable", "filename": "original-state.json", "before_sha256": "484b0e256a4e61f59f71b680e1645709b92131520c47252d87441bebf51118ba"}
+{"timestamp": "2026-10-24T20:38:18.533681+00:00", "event": "config_write_intent", "ordinal": 1, "ioctl": "0xc0084806", "frame_hex": "07 18 03 00 18 00 19 07"}
+{"timestamp": "2026-10-24T20:38:18.536674+00:00", "event": "config_write_result", "ordinal": 1, "returned_length": 8, "buffer_hex_after": "07 18 03 00 18 00 19 07"}
+{"timestamp": "2026-10-24T20:38:18.539570+00:00", "event": "config_write_intent", "ordinal": 2, "ioctl": "0xc0084806", "frame_hex": "07 18 03 01 18 00 3f 07"}
+{"timestamp": "2026-10-24T20:38:18.543077+00:00", "event": "config_write_result", "ordinal": 2, "returned_length": 8, "buffer_hex_after": "07 18 03 01 18 00 3f 07"}
+{"timestamp": "2026-10-24T20:38:18.546513+00:00", "event": "config_write_intent", "ordinal": 3, "ioctl": "0xc0084806", "frame_hex": "07 18 03 02 18 00 32 07"}
+{"timestamp": "2026-10-24T20:38:18.550039+00:00", "event": "config_write_result", "ordinal": 3, "returned_length": 8, "buffer_hex_after": "07 18 03 02 18 00 32 07"}
+{"timestamp": "2026-10-24T20:38:18.552900+00:00", "event": "config_write_intent", "ordinal": 4, "ioctl": "0xc0084806", "frame_hex": "07 18 03 03 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.556202+00:00", "event": "config_write_result", "ordinal": 4, "returned_length": 8, "buffer_hex_after": "07 18 03 03 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.559589+00:00", "event": "config_write_intent", "ordinal": 5, "ioctl": "0xc0084806", "frame_hex": "07 18 03 04 18 00 f3 07"}
+{"timestamp": "2026-10-24T20:38:18.562653+00:00", "event": "config_write_result", "ordinal": 5, "returned_length": 8, "buffer_hex_after": "07 18 03 04 18 00 f3 07"}
+{"timestamp": "2026-10-24T20:38:18.565544+00:00", "event": "config_write_intent", "ordinal": 6, "ioctl": "0xc0084806", "frame_hex": "07 18 03 05 18 00 ff 07"}
+{"timestamp": "2026-10-24T20:38:18.568788+00:00", "event": "config_write_result", "ordinal": 6, "returned_length": 8, "buffer_hex_after": "07 18 03 05 18 00 ff 07"}
+{"timestamp": "2026-10-24T20:38:18.571979+00:00", "event": "config_write_intent", "ordinal": 7, "ioctl": "0xc0084806", "frame_hex": "07 18 03 06 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.575040+00:00", "event": "config_write_result", "ordinal": 7, "returned_length": 8, "buffer_hex_after": "07 18 03 06 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.578540+00:00", "event": "config_write_intent", "ordinal": 8, "ioctl": "0xc0084806", "frame_hex": "07 18 03 07 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.582228+00:00", "event": "config_write_result", "ordinal": 8, "returned_length": 8, "buffer_hex_after": "07 18 03 07 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.585487+00:00", "event": "config_delay", "milliseconds": 4}
+{"timestamp": "2026-10-24T20:38:18.592964+00:00", "event": "config_write_intent", "ordinal": 9, "ioctl": "0xc0084806", "frame_hex": "07 18 09 00 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.596139+00:00", "event": "config_write_result", "ordinal": 9, "returned_length": 8, "buffer_hex_after": "07 18 09 00 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.599423+00:00", "event": "config_delay", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.604740+00:00", "event": "config_write_intent", "ordinal": 10, "ioctl": "0xc0084806", "frame_hex": "07 18 00 00 18 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.608525+00:00", "event": "config_write_result", "ordinal": 10, "returned_length": 8, "buffer_hex_after": "07 18 00 00 18 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.612160+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 1, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 00 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.616006+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 1, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 00 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.619198+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.624575+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 2, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 01 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.627824+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 2, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 01 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.631003+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.636347+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 3, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 02 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.641085+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 3, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 02 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.644283+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.649523+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 4, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 03 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.653075+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 4, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 03 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.656438+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.661633+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 5, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 04 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.665065+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 5, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 04 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.668295+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.674712+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 6, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 05 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.677759+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 6, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 05 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.681031+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.686447+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 7, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 06 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.690077+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 7, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 06 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.693003+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.698231+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 8, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 07 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.701595+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 8, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 07 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.704925+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.710020+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.715422+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 9, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 00 00 18 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.718792+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 9, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 00 00 18 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.722134+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 10, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 00 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.725182+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 10, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 00 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.728381+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.733691+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 11, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.737963+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 11, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 19 58 09 1b 00 23 7b"}
+{"timestamp": "2026-10-24T20:38:18.741044+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 12, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 01 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.744336+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 12, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 01 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.747570+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.753222+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 13, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.757295+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 13, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 3f 58 09 1b 00 23 7b"}
+{"timestamp": "2026-10-24T20:38:18.760604+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 14, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 02 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.763993+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 14, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 02 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.767547+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.772575+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 15, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.776093+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 15, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 32 58 09 1b 00 23 7b"}
+{"timestamp": "2026-10-24T20:38:18.779371+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 16, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 03 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.782383+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 16, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 03 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.785278+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.790457+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 17, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.793761+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 17, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 00 58 09 1b 00 23 7b"}
+{"timestamp": "2026-10-24T20:38:18.796703+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 18, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 04 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.799883+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 18, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 04 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.803175+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.808462+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 19, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.811738+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 19, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 f3 58 09 1b 00 23 7b"}
+{"timestamp": "2026-10-24T20:38:18.814664+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 20, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 05 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.817990+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 20, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 05 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.821277+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.826346+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 21, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.829419+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 21, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 ff 58 09 1b 00 23 7b"}
+{"timestamp": "2026-10-24T20:38:18.832576+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 22, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 06 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.836050+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 22, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 06 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.839359+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.844467+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 23, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.848077+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 23, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 00 58 09 1b 00 23 7b"}
+{"timestamp": "2026-10-24T20:38:18.851385+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 24, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 07 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.854948+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 24, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 07 18 00 00 07"}
+{"timestamp": "2026-10-24T20:38:18.857850+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.863116+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 25, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.866532+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 25, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 00 58 09 1b 00 23 7b"}
+{"timestamp": "2026-10-24T20:38:18.869834+00:00", "event": "state_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-24T20:38:18.874808+00:00", "event": "state_feature_intent", "phase": "verify", "ordinal": 26, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.878022+00:00", "event": "state_feature_result", "phase": "verify", "ordinal": 26, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 00 00 00 00 00 00"}
+{"timestamp": "2026-10-24T20:38:18.881326+00:00", "event": "config_complete", "outcome": "written-and-read-back", "before_hex": "19 3f 32 00 f3 ff 01 00", "after_hex": "19 3f 32 00 f3 ff 00 00", "backup_file": "original-state.json", "behavior_verified": false, "complete_configuration_backup": false}

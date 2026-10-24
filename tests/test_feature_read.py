@@ -55,11 +55,12 @@ class FeatureTransportTests(unittest.TestCase):
     def record(self, event, **fields):
         self.events.append((event, fields))
 
-    def run_read(self, *, record=None, recheck=None, mode=stat.S_IFCHR):
+    def run_read(self, *, record=None, recheck=None, mode=stat.S_IFCHR, lock_error=None):
         with patch.object(read, "check_host"), \
                 patch.object(read.os, "open", return_value=42) as opened, \
                 patch.object(read.os, "fstat", return_value=SimpleNamespace(st_mode=mode)), \
                 patch.object(read.os, "close") as closed, \
+                patch("fcntl.flock", side_effect=lock_error), \
                 patch("fcntl.ioctl", side_effect=self.ioctl), \
                 contextlib.redirect_stderr(io.StringIO()):
             try:
@@ -121,6 +122,11 @@ class FeatureTransportTests(unittest.TestCase):
     def test_not_a_character_device_is_refused(self):
         with self.assertRaises(ValueError):
             self.run_read(mode=stat.S_IFREG)
+        self.assertEqual(self.requests, [])
+
+    def test_concurrent_operation_lock_failure_prevents_feature_and_metadata_ioctls(self):
+        with self.assertRaises(BlockingIOError):
+            self.run_read(lock_error=BlockingIOError(errno.EWOULDBLOCK, "another operation owns this device"))
         self.assertEqual(self.requests, [])
 
     def test_descriptor_size_or_bytes_changed_never_gets_feature(self):

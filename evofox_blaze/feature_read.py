@@ -1,6 +1,7 @@
 """Opt-in, one-shot HID GET_FEATURE 07. No SET_REPORT or input-event reads."""
 
 import argparse
+from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime, timezone
 import hashlib
@@ -99,12 +100,9 @@ def check_host():
         raise ValueError("Feature ioctl transport currently supports Linux x86-64 only")
 
 
-def get_feature_once(target, record, recheck):
-    """Validate the open handle, then issue exactly one GET_FEATURE, no retries.
-
-    The ioctl's READ|WRITE bits describe its in/out userspace buffer. This is
-    HIDIOCGFEATURE, not a USB SET_REPORT. Metadata ioctls do not fetch features.
-    """
+@contextmanager
+def validated_handle(target, record, recheck, *, writable=False):
+    """Pin and validate one HID handle. No feature request is issued here."""
     check_host()
     import fcntl
 
@@ -114,10 +112,14 @@ def get_feature_once(target, record, recheck):
             or report.byte_length != target.report_length
             or not 2 <= target.report_length <= 256):
         raise ValueError("Invalid target identity or descriptor-derived length")
-    fd = os.open(target.path, os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW)
+    access = os.O_RDWR if writable else os.O_RDONLY
+    fd = os.open(target.path, access | os.O_CLOEXEC | os.O_NOFOLLOW)
     try:
         if not stat.S_ISCHR(os.fstat(fd).st_mode):
             raise ValueError("Selected path is not a character device")
+        # Cooperative cross-process serialization for all of our feature tools.
+        # Does not claim the USB interface or detach/lock out the kernel driver.
+        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
         info = bytearray(8)
         fcntl.ioctl(fd, HIDIOCGRAWINFO, info, True)
         bus, vid, pid = struct.unpack("=IHH", info)
@@ -133,10 +135,24 @@ def get_feature_once(target, record, recheck):
         if (struct.unpack_from("=I", descriptor_buffer)[0] != size
                 or descriptor_buffer[4:4 + size] != target.descriptor):
             raise ValueError("Open handle report descriptor differs from baseline")
-        # Refresh sysfs revision/interface immediately before the only feature
+        # Refresh sysfs revision/interface immediately before the first feature
         # request. This is not an atomic hotplug lock or exclusive device claim.
         recheck(target)
-        record("handle_validated", identity=target.identity(), bus=bus)
+        record("handle_validated", identity=target.identity(), bus=bus, lock_mode="exclusive-advisory")
+        yield fd
+    finally:
+        os.close(fd)
+
+
+def get_feature_once(target, record, recheck):
+    """Issue exactly one GET_FEATURE on a validated handle, with no retries.
+
+    The ioctl's READ|WRITE bits describe its in/out userspace buffer. This is
+    HIDIOCGFEATURE, not a USB SET_REPORT. Metadata ioctls do not fetch features.
+    """
+    import fcntl
+
+    with validated_handle(target, record, recheck) as fd:
         request = 0xC0004807 | (target.report_length << 16)
         buffer = bytearray(target.report_length)
         buffer[0] = 7
@@ -159,8 +175,6 @@ def get_feature_once(target, record, recheck):
         if buffer[0] != 7:
             raise ValueError("Feature response report ID differs from 07")
         return bytes(buffer)
-    finally:
-        os.close(fd)
 
 
 class Journal:

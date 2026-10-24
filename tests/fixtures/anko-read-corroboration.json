@@ -1,0 +1,61 @@
+{
+  "kind": "reviewed-third-party-capture-excerpt-not-a-Blaze-backup",
+  "reviewed_on": "2026-10-24",
+  "source_issue": "https://gitlab.com/CalcProgrammer1/OpenRGB/-/issues/3551",
+  "source_capture": "https://gitlab.com/CalcProgrammer1/OpenRGB/uploads/a3d265c6bea632625982e96b6227c5d6/USB_GAMING_MOUSE_KM43243952.pcapng",
+  "capture_sha256": "db3a3ba224069226ce75d9ded8a37d9363e71deb15737d749a2f951ad637c9c8",
+  "capture_bytes": 284884,
+  "source_device": "ANKO Gaming RGB Mouse Wired KM43243952; not the attached EvoFox Blaze",
+  "usb_device_descriptor_hex": "12 01 10 01 00 00 00 08 fa 30 40 14 00 01 02 01 00 01",
+  "usb_configuration_descriptor_hex": "09 02 3b 00 02 01 00 a0 32 09 04 00 00 01 03 01 02 00 09 21 10 01 00 01 22 42 00 07 05 81 03 08 00 01 09 04 01 00 01 03 00 01 00 09 21 10 01 00 01 22 8c 00 07 05 82 03 08 00 01",
+  "usb_descriptor_bytes_match_Blaze_capture": true,
+  "hid_report_descriptor_observed_in_public_capture": false,
+  "last_committed_block": {
+    "commit_packet": 97,
+    "base": "0x0018",
+    "data_hex": "19 3f 32 00 87 c0 01 00"
+  },
+  "feature_events": [
+    ["SET_FEATURE", 1943, "07 18 03 00 18 00 00 07"],
+    ["SET_FEATURE", 1945, "07 18 03 01 18 00 00 07"],
+    ["SET_FEATURE", 1947, "07 18 03 02 18 00 00 07"],
+    ["SET_FEATURE", 1949, "07 18 03 03 18 00 00 07"],
+    ["SET_FEATURE", 1951, "07 18 03 04 18 00 00 07"],
+    ["SET_FEATURE", 1953, "07 18 03 05 18 00 00 07"],
+    ["SET_FEATURE", 1955, "07 18 03 06 18 00 00 07"],
+    ["SET_FEATURE", 1957, "07 18 03 07 18 00 00 07"],
+    ["SET_FEATURE", 1959, "07 18 00 00 18 00 00 00"],
+    ["SET_FEATURE", 1963, "07 18 05 00 18 00 00 07"],
+    ["GET_FEATURE", 1966, "07 19 62 09 0f 00 27 db"],
+    ["SET_FEATURE", 1967, "07 18 05 01 18 00 00 07"],
+    ["GET_FEATURE", 1970, "07 3f 62 09 0f 00 27 db"],
+    ["SET_FEATURE", 1971, "07 18 05 02 18 00 00 07"],
+    ["GET_FEATURE", 1974, "07 32 62 09 0f 00 27 db"],
+    ["SET_FEATURE", 1975, "07 18 05 03 18 00 00 07"],
+    ["GET_FEATURE", 1978, "07 00 62 09 0f 00 27 db"],
+    ["SET_FEATURE", 1979, "07 18 05 04 18 00 00 07"],
+    ["GET_FEATURE", 1982, "07 87 62 09 0f 00 27 db"],
+    ["SET_FEATURE", 1983, "07 18 05 05 18 00 00 07"],
+    ["GET_FEATURE", 1986, "07 c0 62 09 0f 00 27 db"],
+    ["SET_FEATURE", 1987, "07 18 05 06 18 00 00 07"],
+    ["GET_FEATURE", 1990, "07 01 62 09 0f 00 27 db"],
+    ["SET_FEATURE", 1991, "07 18 05 07 18 00 00 07"],
+    ["GET_FEATURE", 1994, "07 00 62 09 0f 00 27 db"],
+    ["SET_FEATURE", 1995, "07 18 00 00 00 00 00 00"]
+  ],
+  "event_interpretation": "Packet numbers are PCAPNG enhanced-packet ordinals. SET bytes follow USB SET_REPORT setup; GET bytes are successful completion data paired by USB IRP identity. No phase 09 occurs in this read.",
+  "collected_hex": "19 3f 32 00 87 c0 01 00",
+  "independent_implementation_review": {
+    "repository": "https://github.com/Navadeep-Reddy/evofox-phantom-air-linux",
+    "commit": "8fe57c3121c4882899adbb88a3aa4e4c7067354a",
+    "protocol_file_sha256": "bb173e87ec988e90cf65147048970ce468b2aa161e4b3342f2cff885c66caeb2",
+    "difference": "protocol.py lines 381-384 append phase 09 to a read; neither the Blaze reader nor the public read sequence above does so. Do not import this behavior.",
+    "executed": false
+  },
+  "limitations": [
+    "Corroborates observed bytes and read behavior on another physical product, not every firmware side effect on Blaze",
+    "Returned nonzero bytes match the most recent committed block despite zero-data preparation",
+    "No claim of a full backup, arbitrary-address safety, lighting readback, or firmware compatibility",
+    "Only the fixed 0018/8-byte experimental read is implemented; live use requires explicit staging-risk acknowledgement"
+  ]
+}

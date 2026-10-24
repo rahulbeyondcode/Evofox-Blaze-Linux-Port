@@ -1,0 +1,40 @@
+{
+  "kind": "static-field-map-plus-independent-reference-not-a-device-backup",
+  "application_sha256": "9eec736ee629ff9d0684f787a270afe86d064fdcf23e7eb11f921dc7844eee55",
+  "source_evidence": {
+    "serializer_0x422070": "ev_4c1603b7dd3456d34089b5719646087cb11ac79250e64b2c0a5a9e385926795f",
+    "loader_0x42a880": "ev_a39bcbc6785ce3994d80ae9c679a95eda2e154ac6c3895e6ef2905cdf53c7c0d",
+    "writer_0x413a10": "ev_416dbeed5df074bf93e5abe8016ab7d8f6d46293bf796ac7cec46756283a7901"
+  },
+  "block_base": 24,
+  "block_length": 8,
+  "stage": {"byte_offset": 0, "mask": 7, "serialized_prefix": 24, "stage_count": 6, "global": "0x671d8c"},
+  "enabled_mask": {"byte_offset": 1, "mask": 63, "first_global": "0x671e54", "last_global": "0x671e59"},
+  "polling": {
+    "byte_offset": 6,
+    "global": "0x6718a2",
+    "ini_key_string_address": "0x605208",
+    "index_global": "0x671b9f",
+    "index_to_divisor": {"0": 7, "1": 3, "2": 1, "3": 0},
+    "assignment_sites": ["0x42bcbb", "0x42bcd0", "0x42bce5", "0x42bcee"],
+    "serializer_assignment_site": "0x423e32",
+    "divisor_to_hz_candidate": {"0": 1000, "1": 500, "3": 250, "7": 125},
+    "frequency_label_reference": "https://github.com/Navadeep-Reddy/evofox-phantom-air-linux/blob/8fe57c3121c4882899adbb88a3aa4e4c7067354a/src/phantom_air/protocol.py#L43",
+    "frequency_measured_on_Blaze": false
+  },
+  "write_helper": {
+    "entry": "0x413a10",
+    "phases": [3, 9, 0],
+    "delay_before_commit_ms": 4,
+    "delay_before_exit_ms": 2,
+    "exit_retains_base": true
+  },
+  "owned_write_byte_offsets": [0, 6],
+  "preserved_byte_offsets": [1, 2, 3, 4, 5, 7],
+  "limitations": [
+    "Only one owned field may change per operation; all other freshly read block bytes are retained",
+    "Active stage is not a physical CPI value; enabled-mask bytes are not writable in this backend",
+    "Polling labels are source/reference-derived; no actual USB polling-frequency measurement is claimed",
+    "A block backup is not a full configuration, firmware, lighting, or macro backup"
+  ]
+}
