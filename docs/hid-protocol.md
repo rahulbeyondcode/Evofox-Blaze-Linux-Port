@@ -1,183 +1,220 @@
-# Recovered HID protocol
+# Protocol evidence
 
-This document records the strongest technical evidence from static disassembly. Addresses are preferred virtual addresses in `Gaming Mouse 3.0.exe` unless explicitly called file offsets. They are useful for relocating the same code in Ghidra or another disassembler.
+## Observed hardware: 30fa:1440, revision 0100
 
-## Device identity
+Source: [descriptor capture](device-captures/2026-10-23-30fa-1440-0100/probe.json).
+Raw USB/HID descriptor bytes and HID report descriptor SHA-256 hashes are retained there.
+No feature request or mouse-setting write was made during this capture.
 
-The application's initialized `.data` begins at virtual address `0x66b000`, corresponding to file offset `0x269800` in the extracted executable. Its first 12 bytes were:
+| USB interface | Top-level usage page/usage | Report type / ID / length |
+|---|---|---|
+| 0 | `0001/0002` mouse | Input `01`, 7 bytes |
+| 1 | `0001/0006` keyboard | Input `03`, 8 bytes |
+| 1 | `000c/0001` consumer control | Input `02`, 3 bytes |
+| 1 | `ff00/0001` vendor | Input `06`, 3 bytes |
+| 1 | `ff01/0001` configuration | Feature `07`, 8 bytes |
+| 1 | `0001/0080` system control | Input `08`, 2 bytes |
+
+Lengths include the report ID. Feature `07` has seven eight-bit payload fields:
+**seven payload bytes plus one ID byte**, not eight payload bytes.
+
+Linux exposes one hidraw node per USB HID interface here. Both vendor
+collections belong to interface 1, alongside ordinary input collections.
+Windows collection handles must not be translated into separate Linux nodes.
+Find configuration support by scanning collections and their owned feature
+reports, not by accepting only a node's first top-level usage.
+
+The USB manufacturer is `INSTANT`, product `USB GAMING MOUSE`, speed 12 Mbit/s.
+This does not identify the controller silicon or prove the retail label.
+
+## Observed standalone GET_FEATURE
+
+Source: [one-shot read journal](device-captures/30fa-1440-0100-get-feature-01/feature-read.jsonl),
+on `30fa:1440`, revision `0100`, interface 1. The open handle's USB IDs and
+report descriptor matched the saved baseline before the only feature request.
 
 ```text
-fa 30 00 00 40 14 00 00 01 1e 00 00
+HIDIOCGFEATURE(8):  0xc0084807
+Syscall buffer:   07 00 00 00 00 00 00 00
+Returned bytes:   07 00 58 09 1f 00 23 7b
+Returned length:  8
 ```
 
-The enumeration function reads `HIDD_ATTRIBUTES.VendorID` and `ProductID` as 16-bit values, then compares them with those initialized 32-bit globals. Therefore:
+No SET_REPORT preceded this request in our work. This confirms that a standalone
+feature read is accepted on this revision, not that the bytes form a complete
+configuration or a current/stable status schema. Do not apply the base-`0018`
+block decoder to this report. No polling, repetition, or persistence test was done.
 
-```text
-Vendor ID:       0x30fa
-Product ID #1:   0x1440
-Product ID #2:   0x1e01
-```
+The logged buffer is an ioctl argument, **not** a USB payload capture. The
+ioctl's READ|WRITE direction bits describe the in/out userspace buffer, not a
+SET_REPORT. Metadata ioctls preceded the read; none were feature requests.
+The transport currently accepts Linux x86-64's verified UAPI layout only.
 
-This is confirmed by code at approximately `0x41a081` through `0x41a0d8`:
+### Static interpretation, not yet validated through a device change
 
-- Vendor ID at stack offset `[ebp-0x7c]` is compared with `[0x66b000]`.
-- Product ID at `[ebp-0x7a]` is compared with `[0x66b004]` and `[0x66b008]`.
-- A global flag records which accepted PID matched.
+The [consumer fixture](../tests/fixtures/status-consumer-observations.json)
+records the exact executable hash, REA Evidence IDs, and masks used by the
+offline `evofox_blaze.status` decoder:
 
-The physical mouse must still confirm which PID it currently exposes. The second PID may represent another revision or operating mode.
+| Bytes / bits | Observed Windows behavior | Saved reply |
+|---|---|---|
+| `(byte[6] >> 2) & 3` | Stored at `0x6d6bdc`, written to `[Init] CurConfig` | Profile index candidate `0` |
+| `byte[6] & 2` | Initializer assigns local `0x0ff8` if set, `0x07f8` otherwise | Set; local constant `0x0ff8` |
+| `byte[6] & 0xf3`; bytes 1–5 and 7 | Firmware meanings unassigned | Preserved verbatim |
 
-## Enumeration algorithm
+The profile consumers follow GetFeature calls at `0x44f55e` and `0x44fc3e` in
+`0x44f2b0`; the INI writes are at `0x44f5e1` and `0x44fcc1`. The initializer
+reads are at `0x41a4e3` and `0x422143`. No subsequent use of their selected
+local was found in recovered pseudocode: **do not treat it as a memory address
+or storage capacity**. Bit 1's firmware meaning therefore remains unknown.
 
-Confirmed behavior in the function beginning near `0x419df0`:
+These cover four of the five observed direct GetFeature thunk references;
+the fifth is the command-18 bulk reader. Indirect coverage remains unknown.
+The reply does not establish a DPI stage, CPI value, polling rate, lighting
+mode, or checksum. An offline decoder accepts only a complete standalone-read
+journal, not an arbitrary report-07 packet or a failed/partial read.
 
-1. Call `HidD_GetHidGuid`.
-2. Obtain the present HID device-interface set with SetupAPI.
-3. Enumerate up to 100 HID interfaces.
-4. Resolve each device path.
-5. Open the path and populate a 12-byte `HIDD_ATTRIBUTES` structure.
-6. Read the HID product string into a 100-byte buffer.
-7. Require VID `30fa` and PID `1440` or `1e01`.
-8. Obtain `HIDP_CAPS` through `HidD_GetPreparsedData` and `HidP_GetCaps`.
-9. Select interfaces based on Usage and Usage Page.
-10. Keep separate handles for two vendor-defined interfaces.
+## Static EvoFox application evidence
 
-The application imports `RegisterDeviceNotificationW`, so it also responds to device arrival/removal.
+These offsets refer to the application hash in
+[vendor-reference.md](vendor-reference.md), preferred image
+base `0x00400000`; they are virtual addresses, not installer file offsets.
+The command-18 routines were rechecked in this session; the remaining addresses
+are retained research seeds until rechecked.
 
-## HID interface selection
-
-The application requires Usage `0x0001` and recognizes two vendor usage pages:
-
-| Usage Page | Usage | Open mode observed | Role |
-|---|---:|---|---|
-| `0xff00` | `0x0001` | `GENERIC_READ` | Secondary/read interface; exact role unknown |
-| `0xff01` | `0x0001` | `GENERIC_WRITE` | Configuration interface used for HID feature commands |
-
-Relevant code is approximately `0x41a113` through `0x41a1f2`.
-
-The `HIDP_CAPS` for `ff00` is copied to a global block beginning `0x671050`. The caps for `ff01` are copied to a block beginning `0x671090`.
-
-`HIDP_CAPS.FeatureReportByteLength` is at offset eight in that structure, so the feature-report length later read from `0x671098` belongs to the `ff01` interface. The program does not hard-code this length; it asks the physical device.
-
-## Handles and global buffers
-
-Observed global state:
-
-| Address | Meaning |
+| Address | Research seed |
 |---|---|
-| `0x671010` | Temporary `HIDP_CAPS` output |
-| `0x671050` | Copied caps for Usage Page `ff00` |
-| `0x671090` | Copied caps for Usage Page `ff01` |
-| `0x671098` | `ff01` feature-report byte length |
-| `0x6710d8` | Shared feature-report buffer, guarded as a maximum 256-byte array |
-| `0x67141c` | Configuration handle associated with Usage Page `ff01` |
-| `0x671420` | Secondary handle associated with Usage Page `ff00` |
+| `0x413910` | Generic `07 18` feature-report builder |
+| `0x413a10` | Staged write helper; **not** the reader (corrected below) |
+| `0x413ac0` | Request / wait / GetFeature / copy-response-byte loop |
+| `0x413b90` | Preparation helper called by `0x413ac0` |
+| `0x419df0` | Enumeration; accepts `30fa:1440` and `30fa:1e01` |
+| `0x41a340` | HID capabilities acquisition |
+| `0x430098`, `0x43023e` | Command `16` builders; meaning unresolved |
+| `0x5d17bd`, `0x5d17c3` | GetFeature and SetFeature import thunks |
+| `0x671098` | Configuration feature-report length |
+| `0x6710d8` | Shared report buffer (256-byte allocation, not report length) |
 
-The buffer code repeatedly checks computed indexes against `0x100`, establishing a 256-byte allocation. This allocation size is not the same as the actual feature-report length.
+The application selects usage `0001` on pages `ff00` and `ff01`, keeps
+collection handles separately on Windows, and passes the descriptor-derived
+feature length to HidD_GetFeature / HidD_SetFeature. The new Ghidra inventory
+finds five direct references to the GetFeature thunk and **23**, not the old
+approximate 24, to SetFeature. This does not establish indirect-call coverage.
 
-## HID API calls and thunks
+REA evidence IDs (raw bundles are retained in `.work/analysis/`):
 
-The PE import thunks relevant to configuration were:
+| Observation | Evidence ID |
+|---|---|
+| Builder `0x413910` | `ev_5a044464d9fa2bccd73483febee0dd426e9f2a6aaa58121de1c31a39a40c9787` |
+| Writer `0x413a10` | `ev_416dbeed5df074bf93e5abe8016ab7d8f6d46293bf796ac7cec46756283a7901` |
+| Reader `0x413ac0` | `ev_deb30d296f27936b059a53842f666bc0548880b1ea56cdabd29a17da02972f26` |
+| Preparation `0x413b90` | `ev_2b07d0d512b35abb5c028b03876e73587b2c60b45ae2feca69e8ed2288f9caab` |
+| GetFeature thunk references | `ev_d1089537cc6a1c39e45fee5e4edd34bf5899102ff765dad00c52b11075b6a0b2` |
+| SetFeature thunk references | `ev_c3709f3f85719d823ccbabc8ab7ad912a6d07677cd3f5d87c2c62604efa0ddf3` |
 
-| Function | Thunk address |
-|---|---:|
-| `HidP_GetCaps` | `0x5d179f` |
-| `HidD_GetAttributes` | `0x5d17a5` |
-| `HidD_GetHidGuid` | `0x5d17ab` |
-| `HidD_GetPreparsedData` | `0x5d17b1` |
-| `HidD_FreePreparsedData` | `0x5d17b7` |
-| `HidD_GetFeature` | `0x5d17bd` |
-| `HidD_SetFeature` | `0x5d17c3` |
-| `HidD_GetProductString` | `0x5d17c9` |
-
-The static scan found approximately five calls to `HidD_GetFeature` and 24 calls to `HidD_SetFeature`. This is enough surface area to reconstruct the command families from the executable if device observation alone is insufficient.
-
-## Report mechanics
-
-Confirmed recurring behavior:
-
-- The shared report buffer starts with byte `0x07`, establishing report ID 7.
-- The program passes the descriptor-derived feature-report length to both `HidD_GetFeature` and `HidD_SetFeature`.
-- Several command builders populate only byte indexes 0 through 7.
-- Some operations sleep for 2 ms or 10 ms between feature transactions.
-- A status query sets only report ID `07`, calls `GetFeature`, and examines response byte 6.
-
-An eight-byte feature report is therefore a strong inference, but it must be confirmed from the Linux report descriptor or `HIDP_CAPS` equivalent before implementation.
-
-## Recovered command `0x18`
-
-The function at `0x413910` is a generic feature-report writer. It constructs:
+At `0x413910`, ten stack arguments construct:
 
 ```text
-byte 0: 0x07
-byte 1: 0x18
-byte 2: packed flags/address component
-byte 3: argument 8, low byte
-byte 4: argument 7, low byte
-byte 5: argument 7, high byte
-byte 6: argument 10, low byte
-byte 7: argument 9, low byte
+07 18 flags arg8 arg7-lo arg7-hi arg10 arg9
+flags = low_byte((arg1 << 5) + (arg2 << 4) + (arg3 * 4)
+                 + (arg4 * 8) + (arg5 * 2) + arg6)
 ```
 
-With the function's ten stack arguments numbered from one, byte 2 is built as:
+No protocol-wide encryption/checksum has been established; absence in one
+builder is not proof for other commands.
+
+## Corrected EvoFox read/write routines
+
+Rechecking the exact executable exposed an incorrect offset in the original
+notes: `0x413a10` is a **write helper**, not a read loop. GNU objdump shows
+it builds phase `03` data frames, waits 4 ms, sends phase `09`, waits 2 ms,
+then sends phase `00`. This is Blaze-application evidence, not a timing copied
+from the generic driver. Execution and hardware effects remain untested.
+
+The read loop starts at `0x413ac0`. Its static sequence is:
+
+1. Call `0x413b90(base, length)`. That helper sends phase `03` frames with
+   zero data and increasing index, sleeping 2 ms after each; waits another
+   2 ms and sends phase `00` with the base retained.
+2. For each index, send `07 18 05 ii aa AA 00 nn`, wait 2 ms, call GetFeature,
+   and copy response byte 1 into the caller's output buffer.
+3. Wait 2 ms, then send `07 18 00 00 00 00 00 00`.
+
+Here `aa AA` is the supplied base, `ii` the index, and `nn` length minus one.
+This **uses SET_REPORT**, including zero-data preparation, so it must not be
+exposed as a harmless read or run before those phases' side effects are known.
+The original code stores API return values without checking them before copying
+the response; a Linux implementation must not copy that error-handling behavior.
+
+The three reader callers supply the following fixed arguments:
+
+| Caller / call site | Base / collected length | Use in the host application |
+|---|---|---|
+| `0x44c880` / `0x44ca69` | `0x0fa0`, `0x0fa8`, `0x0fb0`, `0x0fb8`; 8 bytes each | Compare the resulting 32 bytes with an encoded input string |
+| `0x44cc10` / `0x44cc46` | `0x0018`; 8 bytes | Mask byte 0 with `07`, then call `0x4325f0` |
+| `0x44e560` / `0x44e606` | `0x0018`; 8 bytes | Mask byte 0 with `07`, store at `0x670fac`, update a UI path |
+
+The `0x0018` selector follows the DPI-stage state, not a proven profile index:
+the cached value at `0x670fac` is initialized from `0x671d8c`, which is loaded
+from the `DPI_LEVEL` INI field (`0x42ae3f` through `0x42ae6e`, string
+`0x604fac`). This is a static application mapping; no CPI value or physical
+stage range has been measured. Preserve selector values 6/7 as unassigned.
+
+The [static fixture](../tests/fixtures/vendor-read-observations.json) preserves
+caller Evidence IDs and exact arguments. No incoming xrefs were found for
+`0x44c880` or `0x44cc10`; they may be unused/template code or reached indirectly.
+`0x44e560` has one static caller at `0x43aff7` and opens an audio-related UI
+path (`0x44e4e0` checks the Windows mixer). None was observed executing.
+
+Do not invoke the whole `0x44cc10` path as a read: `0x4325f0` emits a separate
+command `07 14 ...` through SetFeature immediately afterward. The offline
+preview models only `0x413ac0` and its preparation helper, not that caller.
+
+For each observed eight-byte block, the helper emits **18 SET_FEATUREs,
+8 GET_FEATUREs, and 36 ms of explicit sleeps** (USB time is additional).
+No phase `09` occurs in this helper; the actual writer uses it. This supports
+an uncommitted-buffer interpretation of preparation, but firmware side effects
+cannot be proved from host code. Zero-data phase `03` is still a write-shaped
+transaction and remains unavailable to hardware.
+
+These callers do not establish a full settings read/backup map. Neither the
+comparison blocks' purpose nor arbitrary addresses are safe to infer or sweep.
+
+The REA dossiers corroborate this sequence. To reproduce the instruction check
+without executing the application:
+
+```sh
+objdump -d -Mintel --start-address=0x413910 --stop-address=0x413c0e 'Gaming Mouse 3.0.exe'
+```
+
+## A825 comparison — hypothesis for Blaze, not hardware commands
+
+The [official A825 reference application](vendor-reference.md#a825-comparison)
+has a helper at `0x455a40` that builds:
 
 ```text
-(arg1 << 5) + (arg2 << 4) + (arg3 * 4) +
-(arg4 * 8) + (arg5 * 2) + arg6
+07 18 03 ii aa AA dd nn   # one frame per data byte
+07 18 09 00 aa AA 00 nn   # after about 4 ms
+07 18 00 00 aa AA 00 00   # after about 12 ms
 ```
 
-Only the low byte is stored. Argument 7 is stored little-endian in bytes 4 and 5. The function then calls `HidD_SetFeature(handle, buffer, FeatureReportByteLength)`.
+`ii` is the byte index, `aa AA` a little-endian base value, `dd` the data byte,
+and `nn` total length minus one. Interpreting these as staging/commit/finalize
+and the base as configuration memory is inferred. Another routine near
+`0x486160` uses phases `03` / `05` / `00` and GetFeature.
 
-A nearby routine repeatedly invokes this writer, waits 2 ms, invokes `HidD_GetFeature`, and copies response byte 1 to an output buffer. The official A825 reference driver now makes indexed configuration-memory access a strong family-level interpretation, but it remains **inferred** for the physical Blaze.
+Matching USB IDs, signer metadata, report ID, and frame layout make A825 a
+useful lead. They do **not** validate addresses, storage capacity, timing,
+safe ranges, or persistence on the Blaze. Do not replay these frames.
 
-## Independent protocol-family corroboration
+## Unresolved, in implementation order
 
-A public [libratbag support request for the Ant Esports GM320](https://github.com/libratbag/libratbag/issues/1795) reports the same USB ID `30fa:1440`, report ID `07`, HID `SET_REPORT` writes, and a packet prefix `07 18`. Its author describes the following three bytes as a possible memory address and identifies an Instant Microelectronics A825 controller after opening that different mouse.
-
-This is unusually close independent corroboration of the static findings, but it is not Blaze-specific proof. The issue concerns another retail product, its reported 65-KiB capture is not attached, and no libratbag implementation accompanies it. Do not import an address map or assume an A825 controller until the physical Blaze descriptor and behavior agree. See [Related hardware research](related-hardware-research.md) for the complete comparison and source limitations.
-
-The controller vendor's official generic A825 driver is stronger evidence than the retail-device report. Its statically recovered write helper sends fixed eight-byte frames in these phases:
-
-```text
-07 18 03 <index> <address-low> <address-high> <data> <length-minus-one>
-07 18 09 00      <address-low> <address-high> 00     <length-minus-one>
-07 18 00 00      <address-low> <address-high> 00     00
-```
-
-This aligns with the EvoFox builder byte-for-byte and suggests the following semantics:
-
-| Byte | Family-level interpretation |
-|---:|---|
-| 0 | Report ID `07` |
-| 1 | Command family `18` |
-| 2 | Operation or transaction phase |
-| 3 | Byte/chunk index or subcommand value |
-| 4–5 | Little-endian configuration address |
-| 6 | Data or operation-specific value |
-| 7 | Length-minus-one or operation-specific control |
-
-The generic driver waits about 4 ms before its byte-2 `09` frame and about 12 ms before its final byte-2 `00` frame. These timings and operation labels must be verified on the Blaze before writes are enabled.
-
-## Other observed command bytes
-
-Several report writers use byte 1 value `0x16`, including code around `0x430098` and `0x43023e`. The surrounding code supplies additional bytes from configuration globals. Its exact feature meaning has not been assigned.
-
-Do not label command `0x16` as DPI, RGB, macro, or profile control until a differential device test or deeper data-flow analysis proves it.
-
-## Encryption and checksums
-
-The recovered `0x18` command is assembled directly from arguments and sent without a visible encryption or checksum step. Other simple report builders behave similarly. The application does contain strings related to encrypted **macro-file export**, which is a separate desktop-file feature and is not evidence of encrypted USB traffic.
-
-Current conclusion:
-
-- No protocol-wide encryption layer was evident.
-- No protocol-wide checksum has yet been identified.
-- Only fully decoded command paths may be assumed to lack a checksum.
-
-## Linux transport implication
-
-The expected Linux transport is HIDAPI or direct `hidraw` feature-report ioctls:
-
-- `hid_get_feature_report` / `HIDIOCGFEATURE` for reads.
-- `hid_send_feature_report` / `HIDIOCSFEATURE` for writes.
-
-The initial probe must enumerate by VID/PID and then verify usage page, usage, interface number, report ID, and report length. It must not choose an interface solely by `/dev/hidrawN` ordering.
+1. Validate the static profile candidate against a controlled device observation;
+   assign the remaining response bits only with evidence, not plausibility.
+2. Establish the recovered reader's firmware-side preparation effects before
+   allowing its SET_REPORT transactions; fixed source ranges are now recorded.
+3. Which addresses/fields control lighting, and how are original values restored?
+4. What are command `16`, commit/status semantics, error responses, and delays?
+5. Map DPI indexes, polling indexes, profiles, and buttons using application
+   data flow plus device readback. Establish persistence by power-cycle testing.
+6. Decode macro records only after ordinary settings can be backed up/restored.

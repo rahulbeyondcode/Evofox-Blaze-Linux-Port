@@ -1,0 +1,41 @@
+{
+  "kind": "static-analysis-fixture-not-a-device-capture",
+  "application_sha256": "9eec736ee629ff9d0684f787a270afe86d064fdcf23e7eb11f921dc7844eee55",
+  "rea_version": "6.7.0",
+  "ghidra_version": "12.1.4",
+  "source_run": "read-callers-01",
+  "source_evidence": {
+    "0x44c880": "ev_9beafa3cf4ecf5d2878506c5d0411f04deef1541f6b335f6ae15d614949751ec",
+    "0x44cc10": "ev_e87512d881fa0916e91f5e25e54087d9499355663c86ec4b89270f7e51600b0c",
+    "0x44e560": "ev_ab2baacae5381cfb108e87622984522ca75977c0d2ce4852113da9c417060bb7",
+    "0x4325f0": "ev_3d36d063fd6824835b39a006b2135f191e4e397184e3e71b2a3b24f7dedbe37d"
+  },
+  "regions": [
+    {"name": "dpi-state", "base": 24, "length": 8, "call_sites": ["0x44cc46", "0x44e606"]},
+    {"name": "comparison-0", "base": 4000, "length": 8, "call_sites": ["0x44ca69"]},
+    {"name": "comparison-1", "base": 4008, "length": 8, "call_sites": ["0x44ca69"]},
+    {"name": "comparison-2", "base": 4016, "length": 8, "call_sites": ["0x44ca69"]},
+    {"name": "comparison-3", "base": 4024, "length": 8, "call_sites": ["0x44ca69"]}
+  ],
+  "selector": {
+    "base": 24,
+    "collected_byte": 0,
+    "mask": 7,
+    "field_name": "DPI_LEVEL",
+    "field_string_address": "0x604fac",
+    "field_load_range": ["0x42ae3f", "0x42ae6e"],
+    "field_global": "0x671d8c",
+    "cached_global": "0x670fac"
+  },
+  "reachability": {
+    "0x44c880": "No incoming xrefs found; runtime reachability unknown",
+    "0x44cc10": "No incoming xrefs found; runtime reachability unknown",
+    "0x44e560": "One incoming reference at 0x43aff7 in 0x43a780; runtime not observed"
+  },
+  "limitations": [
+    "Regions are static call arguments, not a hardware-safe address whitelist",
+    "Host code cannot establish firmware effects of phase 03 or phase 00",
+    "DPI selector mapping is static; no physical CPI values are inferred",
+    "This static fixture contains no device setting or feature-response observations"
+  ]
+}

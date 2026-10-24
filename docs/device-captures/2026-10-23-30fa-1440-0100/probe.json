@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-23T18:27:41.413456+00:00",
+  "tool": "evofox_blaze.probe 0.1.0",
+  "command": "python3 -m evofox_blaze.probe --capture <new-directory>",
+  "environment": {
+    "kernel": "7.1.1-76070101-generic",
+    "architecture": "x86_64",
+    "python": "3.10.12"
+  },
+  "device_interaction": "sysfs reads only; no device nodes opened or feature requests sent",
+  "nodes": [
+    {
+      "vid": "30fa",
+      "pid": "1440",
+      "usb": {
+        "bcdDevice": "0100",
+        "manufacturer": "INSTANT",
+        "product": "USB GAMING MOUSE",
+        "bNumInterfaces": "2",
+        "speed": "12"
+      },
+      "interface": {
+        "bInterfaceNumber": "00",
+        "bInterfaceClass": "03",
+        "bInterfaceSubClass": "01",
+        "bInterfaceProtocol": "02"
+      },
+      "report_descriptor_hex": "05 01 09 02 a1 01 85 01 09 01 a1 00 05 09 19 01 29 05 15 00 25 01 95 05 75 01 81 02 95 01 75 03 81 01 05 01 09 30 09 31 16 01 80 26 ff 7f 75 10 95 02 81 06 09 38 15 81 25 7f 75 08 95 01 81 06 c0 c0",
+      "report_descriptor_sha256": "b3b36ccb75877ba098880f197813c4f834415fc2a06fe5181f3f93f76d46f347",
+      "usb_descriptors_hex": "12 01 10 01 00 00 00 08 fa 30 40 14 00 01 02 01 00 01 09 02 3b 00 02 01 00 a0 32 09 04 00 00 01 03 01 02 00 09 21 10 01 00 01 22 42 00 07 05 81 03 08 00 01 09 04 01 00 01 03 00 01 00 09 21 10 01 00 01 22 8c 00 07 05 82 03 08 00 01",
+      "collections": [
+        {
+          "usage_page": 1,
+          "usage": 2,
+          "kind": 1,
+          "parent": null
+        },
+        {
+          "usage_page": 1,
+          "usage": 1,
+          "kind": 0,
+          "parent": 0
+        }
+      ],
+      "reports": [
+        {
+          "kind": "input",
+          "report_id": 1,
+          "payload_bits": 48,
+          "collection_indices": [
+            0
+          ],
+          "byte_length": 7
+        }
+      ],
+      "configuration_report": null,
+      "access": {
+        "read": true,
+        "write": true
+      },
+      "capture_node": 0
+    },
+    {
+      "vid": "30fa",
+      "pid": "1440",
+      "usb": {
+        "bcdDevice": "0100",
+        "manufacturer": "INSTANT",
+        "product": "USB GAMING MOUSE",
+        "bNumInterfaces": "2",
+        "speed": "12"
+      },
+      "interface": {
+        "bInterfaceNumber": "01",
+        "bInterfaceClass": "03",
+        "bInterfaceSubClass": "00",
+        "bInterfaceProtocol": "01"
+      },
+      "report_descriptor_hex": "05 01 09 06 a1 01 85 03 05 07 19 e0 29 e7 15 00 25 01 95 08 75 01 81 02 95 06 75 08 15 00 26 ff 00 05 07 19 00 29 e7 81 00 c0 05 0c 09 01 a1 01 85 02 19 00 2a 9c 02 15 00 26 9c 02 95 01 75 10 81 00 c0 06 00 ff 09 01 a1 01 85 06 15 00 26 ff 00 09 2f 95 02 75 08 81 02 c0 06 01 ff 09 01 a1 01 85 07 15 00 26 ff 00 09 20 95 07 75 08 b1 02 c0 05 01 09 80 a1 01 85 08 19 81 29 83 15 00 25 01 75 01 95 03 81 02 95 05 81 01 c0",
+      "report_descriptor_sha256": "0ec3eb2dc293bd8edcb490f5cee9ab272ebec8f4e0edc5f9f365f1bab53b2018",
+      "usb_descriptors_hex": "12 01 10 01 00 00 00 08 fa 30 40 14 00 01 02 01 00 01 09 02 3b 00 02 01 00 a0 32 09 04 00 00 01 03 01 02 00 09 21 10 01 00 01 22 42 00 07 05 81 03 08 00 01 09 04 01 00 01 03 00 01 00 09 21 10 01 00 01 22 8c 00 07 05 82 03 08 00 01",
+      "collections": [
+        {
+          "usage_page": 1,
+          "usage": 6,
+          "kind": 1,
+          "parent": null
+        },
+        {
+          "usage_page": 12,
+          "usage": 1,
+          "kind": 1,
+          "parent": null
+        },
+        {
+          "usage_page": 65280,
+          "usage": 1,
+          "kind": 1,
+          "parent": null
+        },
+        {
+          "usage_page": 65281,
+          "usage": 1,
+          "kind": 1,
+          "parent": null
+        },
+        {
+          "usage_page": 1,
+          "usage": 128,
+          "kind": 1,
+          "parent": null
+        }
+      ],
+      "reports": [
+        {
+          "kind": "feature",
+          "report_id": 7,
+          "payload_bits": 56,
+          "collection_indices": [
+            3
+          ],
+          "byte_length": 8
+        },
+        {
+          "kind": "input",
+          "report_id": 2,
+          "payload_bits": 16,
+          "collection_indices": [
+            1
+          ],
+          "byte_length": 3
+        },
+        {
+          "kind": "input",
+          "report_id": 3,
+          "payload_bits": 56,
+          "collection_indices": [
+            0
+          ],
+          "byte_length": 8
+        },
+        {
+          "kind": "input",
+          "report_id": 6,
+          "payload_bits": 16,
+          "collection_indices": [
+            2
+          ],
+          "byte_length": 3
+        },
+        {
+          "kind": "input",
+          "report_id": 8,
+          "payload_bits": 8,
+          "collection_indices": [
+            4
+          ],
+          "byte_length": 2
+        }
+      ],
+      "configuration_report": {
+        "report_id": 7,
+        "byte_length": 8
+      },
+      "access": {
+        "read": true,
+        "write": true
+      },
+      "capture_node": 1
+    }
+  ]
+}

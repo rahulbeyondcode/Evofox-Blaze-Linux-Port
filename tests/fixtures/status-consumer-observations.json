@@ -1,0 +1,44 @@
+{
+  "kind": "static-analysis-fixture-not-a-device-capture",
+  "application_sha256": "9eec736ee629ff9d0684f787a270afe86d064fdcf23e7eb11f921dc7844eee55",
+  "rea_version": "6.7.0",
+  "ghidra_version": "12.1.4",
+  "source_run": "status-consumers-01",
+  "source_evidence": {
+    "0x41a410": "ev_bb1aef113c6a8fdb7d3ffc70f1a22661cc8bf95b409a11ff2804ad1def2092d9",
+    "0x422070": "ev_4c1603b7dd3456d34089b5719646087cb11ac79250e64b2c0a5a9e385926795f",
+    "0x44f2b0": "ev_b74dd0fa47c45164b3dcc190fd796a7ab76cdd8bd7935efab611ca6177e3e543"
+  },
+  "profile_index_candidate": {
+    "byte_offset": 6,
+    "mask": 12,
+    "shift": 2,
+    "get_call_sites": ["0x44f55e", "0x44fc3e"],
+    "mask_instruction_sites": ["0x44f57e", "0x44fc5e"],
+    "destination_global": "0x6d6bdc",
+    "ini_section": "Init",
+    "ini_key": "CurConfig",
+    "key_string_addresses": ["0x605f5c", "0x605f98"],
+    "ini_write_sites": ["0x44f5e1", "0x44fcc1"]
+  },
+  "initializer_observation": {
+    "byte_offset": 6,
+    "mask": 2,
+    "get_call_sites": ["0x41a4e3", "0x422143"],
+    "clear_local_constant": 2040,
+    "set_local_constant": 4088,
+    "limitation": "Assigned locals have no subsequent use found in recovered pseudocode; not established device addresses or capacity"
+  },
+  "unknown_byte6_mask": 243,
+  "opaque_byte_offsets": [1, 2, 3, 4, 5, 7],
+  "coverage": {
+    "observed_get_thunk_references": ["0x413b34", "0x41a4e3", "0x422143", "0x44f55e", "0x44fc3e"],
+    "bulk_read_site": "0x413b34",
+    "limitation": "Exact direct references only; unresolved indirect calls and firmware semantics remain unknown"
+  },
+  "limitations": [
+    "Profile mask is proven in host code; live profile semantics have not been checked through a controlled change",
+    "Bit 1 remains semantically unknown even though its initializer branch is observed",
+    "No DPI/CPI, polling, lighting, checksum, storage capacity or safe memory address is inferred from the other bytes"
+  ]
+}
