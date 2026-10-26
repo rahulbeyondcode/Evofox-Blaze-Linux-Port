@@ -1,0 +1,92 @@
+{
+  "application_sha256": "9eec736ee629ff9d0684f787a270afe86d064fdcf23e7eb11f921dc7844eee55",
+  "serializer_entry": "0x422070",
+  "serializer_evidence_id": "ev_4c1603b7dd3456d34089b5719646087cb11ac79250e64b2c0a5a9e385926795f",
+  "alternate_serializer_entry": "0x41a410",
+  "keyboard_layout_dispatch_0x430490": "ev_cf594a5ff1535ec769b48eeb02208e0dd589efd4e0ec3959956452a765579a0a",
+  "keyboard_index_conversion_0x414420": "ev_2a40d8f3d5708b8474c6eff37e7dc5be41ea7ca62256a831f1e98fb1d5978fe3",
+  "record_initializer_0x4137a0": "ev_7000d34ce6c5e8924851ca171bfcef5a421bff4c008179f0ec4ceb059916624e",
+  "us_vk_to_usage_0x458640": "ev_5fbd3a49d6a3e35669d9b2bf6513872f21d033ebdb98e934ae7b131aa7bd9e4e",
+  "tick_global_xrefs_evidence_id": "ev_168bd9ae2c36b74b4cd72f8c463103b1504b0955f3b1bd81b9f8ea3fe43ad7db",
+  "header_blocks": ["0x0008", "0x0068", "0x0070", "0x0078"],
+  "descriptor_table": {
+    "base": "0x00a0",
+    "length": 560,
+    "entry_length": 10,
+    "vendor_table_groups": 4,
+    "entries_per_group": 14,
+    "tick_byte": 0,
+    "event_count_low7_byte": 1,
+    "keyboard_usage_byte": 2,
+    "consumer_usage_le_bytes": [3, 4],
+    "pointer_low_byte": 5,
+    "pointer_high6_byte": 6,
+    "event_count_high6_byte": 7,
+    "opaque_bytes": [8, 9],
+    "repeat_flag_bits": [[1, 7], [6, 7], [6, 6], [7, 6]]
+  },
+  "payload": {
+    "start_candidate": "0x0400",
+    "macro_end_metadata_le_bytes": ["0x006e", "0x006f"],
+    "auxiliary_end_pointer_le_bases": ["0x0070", "0x0072", "0x0074"],
+    "stored_end_prefix_base": "0x0078",
+    "allocation_alignment": 8,
+    "keyboard_event_length": 2,
+    "repeat_prefix_length": 2,
+    "pressed_delay_high_bit": 7,
+    "delay_low_bits": 7,
+    "initial_tick_milliseconds": 1,
+    "delay_clamp_milliseconds": 10000,
+    "limitation": "Mixed mouse/consumer/sequence events can be longer; no general allocator or firmware capacity inferred"
+  },
+  "instruction_checks": [
+    {"address": "0x4272ab", "bytes": "8b 94 88 70 1a 67 00", "meaning": "load mapped per-slot cached function value before keyboard-index subtraction"},
+    {"address": "0x4272bc", "bytes": "e8 5f d1 fe ff", "meaning": "call keyboard index conversion after subtracting 0x46"},
+    {"address": "0x427409", "bytes": "a1 34 b0 66 00", "meaning": "load tick unit before subtracting one for descriptor byte zero"},
+    {"address": "0x427459", "bytes": "88 44 11 01", "meaning": "store descriptor count/repeat byte one"},
+    {"address": "0x427489", "bytes": "88 54 01 02", "meaning": "store converted keyboard usage in descriptor byte two"}
+  ],
+  "public_capture": {
+    "sha256": "db3a3ba224069226ce75d9ded8a37d9363e71deb15737d749a2f951ad637c9c8",
+    "descriptor_write_passes": 2,
+    "blocks_per_pass": 70,
+    "first_commit_packets": [361, 2451],
+    "last_commit_packets": [1879, 3969],
+    "all_descriptor_bytes_zero": true,
+    "limitation": "Different retail product; corroborates writer addresses and chunking, not nonzero record encoding or Blaze read safety"
+  },
+  "hardware_shortcut_headers_read": true,
+  "hardware_header_capture_sha256": "d651e58b5be4822da18924944ce9261aefbe9dcfff8af885a71759e6a2f172e5",
+  "hardware_header_native_button_hex": "21 22 23 24 23 35 00 26",
+  "hardware_header_macro_end": "0x0418",
+  "hardware_header_auxiliary_pointers": ["0x0420", "0x0428", "0x0430"],
+  "hardware_header_stored_end": "0x0438",
+  "hardware_header_nonzero_descriptors": [
+    {"vendor_table_group": 0, "native_slot": 4, "raw_hex": "00 83 ff b7 00 00 04 00 00 00"},
+    {"vendor_table_group": 0, "native_slot": 5, "raw_hex": "00 83 ff b7 00 08 04 00 00 00"},
+    {"vendor_table_group": 0, "native_slot": 9, "raw_hex": "00 82 ff b7 00 10 04 00 00 00"}
+  ],
+  "hardware_shortcut_payload_read": true,
+  "hardware_payload_capture_sha256": "92ae5407d085c8792674164cfd83f7c6d3da0ba315f997dfd3c106a4f646b579",
+  "hardware_original_record_hex": [
+    {"base": "0x0400", "hex": "01 00 84 e0 84 e3 84 50", "stored_chord": "Ctrl+Super+Left"},
+    {"base": "0x0408", "hex": "01 00 84 e0 84 e3 84 4f", "stored_chord": "Ctrl+Super+Right"},
+    {"base": "0x0410", "hex": "01 00 84 e3 84 2b 00 00", "stored_chord": "Super+Tab"}
+  ],
+  "tail_pool_policy": {
+    "base": "0x0438",
+    "entry_stride": 40,
+    "entry_count": 7,
+    "end_exclusive": "0x0550",
+    "status": "Experimental pointer-following at the tail has not been hardware-tested",
+    "allocation_metadata_changed": false,
+    "limitation": "Only the inspected 0418/0438 layout is accepted; unknown/shared records refuse before setting data"
+  },
+  "hardware_shortcut_write_exercised": true,
+  "hardware_f13_test_capture_sha256": "30960a661c255f63699034e011a37190df0e0001dc2ca6df632eccf9e241dabf",
+  "hardware_f13_test_backup_sha256": "1a1e2cc0a35860fa0b2edc811b225a0c4f40488ac479df3a27cacdeacc9d3c2c",
+  "hardware_f13_test_button_hex": "21 22 23 24 2e 35 00 26",
+  "hardware_tail_pointer_behavior_user_verified": false,
+  "hardware_f13_user_report": "Opened desktop Settings; consistent with Tools interception, not a captured input event or full chord validation",
+  "hardware_shortcut_restore_exercised": false
+}
