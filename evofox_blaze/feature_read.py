@@ -17,6 +17,7 @@ from . import __version__
 from .evidence import read_evidence_file
 from .hid_descriptor import parse_report_descriptor
 from .probe import SUPPORTED_IDS, configuration_report, enumerate_devices
+from .operation_progress import PhaseReporter, event_phase
 
 
 # Linux x86-64 UAPI: linux/hidraw.h and asm-generic/ioctl.h. Other ABIs fail
@@ -181,6 +182,7 @@ class Journal:
     """Exclusive, append-only JSONL evidence; flush intent before the ioctl."""
 
     def __init__(self, path):
+        self.reporter = PhaseReporter()
         fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_CLOEXEC, 0o600)
         self.file = os.fdopen(fd, "w")
 
@@ -189,6 +191,10 @@ class Journal:
                                    "event": event, **fields}) + "\n")
         self.file.flush()
         os.fsync(self.file.fileno())
+        self.progress(event_phase(event, fields))
+
+    def progress(self, phase):
+        self.reporter.report(phase)
 
     def close(self):
         self.file.close()

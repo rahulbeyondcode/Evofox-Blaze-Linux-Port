@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-27",
+  "source": "explicit user report in the development session; not an input-event capture",
+  "requested_assignments": [
+    {"native_slot": 4, "action": "back"},
+    {"native_slot": 5, "action": "forward"}
+  ],
+  "before_hex": "21 22 23 2e 2e 35 00 26",
+  "after_hex": "21 22 23 24 25 35 00 26",
+  "journal_sha256": "a8e271a7ff4ca8b1fb2255470f24e462b9b94f23466b3dab6df6c495d3783229",
+  "backup_sha256": "9b2d6e5d36a8cb84ade22d043d11051d273d60218ee20619b089e2adfb050d8b",
+  "user_reported_back_and_forward_working": true,
+  "user_selected_test_result": "Works after replug",
+  "physical_replug_performed_by": "user",
+  "immediate_activation_established": false,
+  "input_monitoring_performed_by_agent": false,
+  "hardware_restore_tested": false,
+  "limitations": [
+    "No event trace, independent timing measurement or long-term retention test",
+    "No custom shortcut/macro records were read or written",
+    "Vendor UI numbering and untested physical controls are not universally confirmed",
+    "The stored native Back/Forward assignments were intentionally left in place; no automatic restore"
+  ]
+}

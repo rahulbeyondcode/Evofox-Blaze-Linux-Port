@@ -1,0 +1,166 @@
+{"timestamp": "2026-10-27T11:57:49.455577+00:00", "event": "button_config_session", "identity": {"vid": "30fa", "pid": "1440", "bcdDevice": "0100", "interface": "01", "report_descriptor_sha256": "0ec3eb2dc293bd8edcb490f5cee9ab272ebec8f4e0edc5f9f365f1bab53b2018", "report_id": 7, "report_length": 8}, "report_descriptor_hex": "05 01 09 06 a1 01 85 03 05 07 19 e0 29 e7 15 00 25 01 95 08 75 01 81 02 95 06 75 08 15 00 26 ff 00 05 07 19 00 29 e7 81 00 c0 05 0c 09 01 a1 01 85 02 19 00 2a 9c 02 15 00 26 9c 02 95 01 75 10 81 00 c0 06 00 ff 09 01 a1 01 85 06 15 00 26 ff 00 09 2f 95 02 75 08 81 02 c0 06 01 ff 09 01 a1 01 85 07 15 00 26 ff 00 09 20 95 07 75 08 b1 02 c0 05 01 09 80 a1 01 85 08 19 81 29 83 15 00 25 01 75 01 95 03 81 02 95 05 81 01 c0", "base": "0x0008", "length": 8, "operation": "change", "assignments": [{"slot": 4, "action": "back"}, {"slot": 5, "action": "forward"}], "accepted_write_risk": true, "restore_basis": null, "scope": "Fixed button block only; extension records untouched; no activation/reset or automatic recovery"}
+{"timestamp": "2026-10-27T11:57:49.464563+00:00", "event": "handle_validated", "identity": {"vid": "30fa", "pid": "1440", "bcdDevice": "0100", "interface": "01", "report_descriptor_sha256": "0ec3eb2dc293bd8edcb490f5cee9ab272ebec8f4e0edc5f9f365f1bab53b2018", "report_id": 7, "report_length": 8}, "bus": 3, "lock_mode": "exclusive-advisory"}
+{"timestamp": "2026-10-27T11:57:49.467763+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 1, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 00 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.471127+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 1, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 00 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.474456+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.481255+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 2, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 01 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.484518+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 2, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 01 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.489141+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.494420+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 3, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 02 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.497441+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 3, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 02 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.501230+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.507519+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 4, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 03 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.512641+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 4, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 03 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.518509+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.523762+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 5, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 04 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.529145+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 5, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 04 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.536713+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.543737+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 6, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 05 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.548051+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 6, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 05 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.551804+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.557533+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 7, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 06 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.561571+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 7, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 06 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.564489+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.569782+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 8, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 07 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.574008+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 8, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 07 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.577553+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.582544+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.589049+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 9, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 00 00 08 00 00 00"}
+{"timestamp": "2026-10-27T11:57:49.593879+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 9, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 00 00 08 00 00 00"}
+{"timestamp": "2026-10-27T11:57:49.597296+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 10, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 00 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.600690+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 10, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 00 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.603940+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.609879+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 11, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:49.613544+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 11, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 21 58 09 15 00 23 7b"}
+{"timestamp": "2026-10-27T11:57:49.617106+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 12, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 01 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.621552+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 12, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 01 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.624813+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.630210+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 13, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:49.635131+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 13, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 22 58 09 15 00 23 7b"}
+{"timestamp": "2026-10-27T11:57:49.638782+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 14, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 02 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.642684+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 14, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 02 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.646705+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.651762+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 15, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:49.655972+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 15, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 23 58 09 15 00 23 7b"}
+{"timestamp": "2026-10-27T11:57:49.659618+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 16, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 03 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.664993+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 16, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 03 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.668587+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.674319+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 17, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:49.678945+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 17, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 2e 58 09 15 00 23 7b"}
+{"timestamp": "2026-10-27T11:57:49.684709+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 18, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 04 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.689624+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 18, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 04 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.693090+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.699975+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 19, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:49.703816+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 19, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 2e 58 09 15 00 23 7b"}
+{"timestamp": "2026-10-27T11:57:49.706775+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 20, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 05 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.712003+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 20, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 05 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.716254+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.721501+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 21, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:49.724522+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 21, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 35 58 09 15 00 23 7b"}
+{"timestamp": "2026-10-27T11:57:49.729708+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 22, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 06 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.734004+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 22, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 06 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.746500+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.753460+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 23, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:49.758160+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 23, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 00 58 09 15 00 23 7b"}
+{"timestamp": "2026-10-27T11:57:49.762712+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 24, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 07 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.766992+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 24, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 07 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.771622+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.777707+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 25, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:49.783814+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 25, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 26 58 09 15 00 23 7b"}
+{"timestamp": "2026-10-27T11:57:49.787885+00:00", "event": "button_delay", "phase": "before", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.805473+00:00", "event": "button_feature_intent", "phase": "before", "ordinal": 26, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:49.810502+00:00", "event": "button_feature_result", "phase": "before", "ordinal": 26, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:49.819772+00:00", "event": "button_backup_durable", "filename": "button-backup.json", "backup": {"schema_version": 1, "identity": {"vid": "30fa", "pid": "1440", "bcdDevice": "0100", "interface": "01", "report_descriptor_sha256": "0ec3eb2dc293bd8edcb490f5cee9ab272ebec8f4e0edc5f9f365f1bab53b2018", "report_id": 7, "report_length": 8}, "base": "0x0008", "length": 8, "assignments": [{"slot": 4, "action": "back"}, {"slot": 5, "action": "forward"}], "before_hex": "21 22 23 2e 2e 35 00 26", "after_hex": "21 22 23 24 25 35 00 26", "before_sha256": "c315a1d4d9be8804be0deaaf9b20614342aff8aeffd925659e0c5b771ff2dd9b", "after_sha256": "2fe7adccdd1d4ab91ac3c4eb1db506574d9af499e6b8491eae78d6e6eede1683", "complete_configuration_backup": false, "extension_records_modified": false}, "before_sha256": "c315a1d4d9be8804be0deaaf9b20614342aff8aeffd925659e0c5b771ff2dd9b", "after_sha256": "2fe7adccdd1d4ab91ac3c4eb1db506574d9af499e6b8491eae78d6e6eede1683"}
+{"timestamp": "2026-10-27T11:57:49.825725+00:00", "event": "button_write_intent", "ordinal": 1, "ioctl": "0xc0084806", "frame_hex": "07 18 03 00 08 00 21 07"}
+{"timestamp": "2026-10-27T11:57:49.831854+00:00", "event": "button_write_result", "ordinal": 1, "returned_length": 8, "buffer_hex_after": "07 18 03 00 08 00 21 07"}
+{"timestamp": "2026-10-27T11:57:49.836777+00:00", "event": "button_write_intent", "ordinal": 2, "ioctl": "0xc0084806", "frame_hex": "07 18 03 01 08 00 22 07"}
+{"timestamp": "2026-10-27T11:57:49.840799+00:00", "event": "button_write_result", "ordinal": 2, "returned_length": 8, "buffer_hex_after": "07 18 03 01 08 00 22 07"}
+{"timestamp": "2026-10-27T11:57:49.844215+00:00", "event": "button_write_intent", "ordinal": 3, "ioctl": "0xc0084806", "frame_hex": "07 18 03 02 08 00 23 07"}
+{"timestamp": "2026-10-27T11:57:49.850232+00:00", "event": "button_write_result", "ordinal": 3, "returned_length": 8, "buffer_hex_after": "07 18 03 02 08 00 23 07"}
+{"timestamp": "2026-10-27T11:57:49.854924+00:00", "event": "button_write_intent", "ordinal": 4, "ioctl": "0xc0084806", "frame_hex": "07 18 03 03 08 00 24 07"}
+{"timestamp": "2026-10-27T11:57:49.858850+00:00", "event": "button_write_result", "ordinal": 4, "returned_length": 8, "buffer_hex_after": "07 18 03 03 08 00 24 07"}
+{"timestamp": "2026-10-27T11:57:49.862399+00:00", "event": "button_write_intent", "ordinal": 5, "ioctl": "0xc0084806", "frame_hex": "07 18 03 04 08 00 25 07"}
+{"timestamp": "2026-10-27T11:57:49.866846+00:00", "event": "button_write_result", "ordinal": 5, "returned_length": 8, "buffer_hex_after": "07 18 03 04 08 00 25 07"}
+{"timestamp": "2026-10-27T11:57:49.872218+00:00", "event": "button_write_intent", "ordinal": 6, "ioctl": "0xc0084806", "frame_hex": "07 18 03 05 08 00 35 07"}
+{"timestamp": "2026-10-27T11:57:49.875851+00:00", "event": "button_write_result", "ordinal": 6, "returned_length": 8, "buffer_hex_after": "07 18 03 05 08 00 35 07"}
+{"timestamp": "2026-10-27T11:57:49.880595+00:00", "event": "button_write_intent", "ordinal": 7, "ioctl": "0xc0084806", "frame_hex": "07 18 03 06 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.884294+00:00", "event": "button_write_result", "ordinal": 7, "returned_length": 8, "buffer_hex_after": "07 18 03 06 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.888262+00:00", "event": "button_write_intent", "ordinal": 8, "ioctl": "0xc0084806", "frame_hex": "07 18 03 07 08 00 26 07"}
+{"timestamp": "2026-10-27T11:57:49.892994+00:00", "event": "button_write_result", "ordinal": 8, "returned_length": 8, "buffer_hex_after": "07 18 03 07 08 00 26 07"}
+{"timestamp": "2026-10-27T11:57:49.896436+00:00", "event": "button_write_delay", "milliseconds": 4}
+{"timestamp": "2026-10-27T11:57:49.903987+00:00", "event": "button_write_intent", "ordinal": 9, "ioctl": "0xc0084806", "frame_hex": "07 18 09 00 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.907114+00:00", "event": "button_write_result", "ordinal": 9, "returned_length": 8, "buffer_hex_after": "07 18 09 00 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.910408+00:00", "event": "button_write_delay", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.918731+00:00", "event": "button_write_intent", "ordinal": 10, "ioctl": "0xc0084806", "frame_hex": "07 18 00 00 08 00 00 00"}
+{"timestamp": "2026-10-27T11:57:49.923151+00:00", "event": "button_write_result", "ordinal": 10, "returned_length": 8, "buffer_hex_after": "07 18 00 00 08 00 00 00"}
+{"timestamp": "2026-10-27T11:57:49.926493+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 1, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 00 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.931657+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 1, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 00 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.934845+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.940521+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 2, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 01 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.950765+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 2, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 01 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.954274+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.960629+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 3, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 02 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.964783+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 3, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 02 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.968017+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.973697+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 4, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 03 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.982294+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 4, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 03 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.986718+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:49.992787+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 5, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 04 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:49.997463+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 5, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 04 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.000896+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:50.006918+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 6, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 05 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.013836+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 6, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 05 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.018631+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:50.023928+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 7, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 06 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.028135+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 7, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 06 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.031700+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:50.037826+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 8, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 03 07 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.041372+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 8, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 03 07 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.044354+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:50.050928+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:50.059020+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 9, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 00 00 08 00 00 00"}
+{"timestamp": "2026-10-27T11:57:50.062495+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 9, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 00 00 08 00 00 00"}
+{"timestamp": "2026-10-27T11:57:50.065558+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 10, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 00 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.068986+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 10, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 00 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.072551+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:50.077985+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 11, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:50.082713+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 11, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 21 58 09 15 00 23 7b"}
+{"timestamp": "2026-10-27T11:57:50.087433+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 12, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 01 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.091324+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 12, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 01 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.094735+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:50.100079+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 13, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:50.105985+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 13, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 22 58 09 15 00 23 7b"}
+{"timestamp": "2026-10-27T11:57:50.109923+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 14, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 02 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.114409+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 14, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 02 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.117375+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:50.125082+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 15, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:50.129999+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 15, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 23 58 09 15 00 23 7b"}
+{"timestamp": "2026-10-27T11:57:50.134740+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 16, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 03 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.138807+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 16, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 03 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.142131+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:50.147943+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 17, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:50.153776+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 17, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 24 58 09 15 00 23 7b"}
+{"timestamp": "2026-10-27T11:57:50.157487+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 18, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 04 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.160928+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 18, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 04 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.164286+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:50.170244+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 19, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:50.173332+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 19, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 25 58 09 15 00 23 7b"}
+{"timestamp": "2026-10-27T11:57:50.176802+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 20, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 05 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.183170+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 20, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 05 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.186695+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:50.192397+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 21, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:50.196048+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 21, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 35 58 09 15 00 23 7b"}
+{"timestamp": "2026-10-27T11:57:50.200596+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 22, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 06 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.205082+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 22, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 06 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.208052+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:50.213433+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 23, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:50.218003+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 23, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 00 58 09 15 00 23 7b"}
+{"timestamp": "2026-10-27T11:57:50.222725+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 24, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 05 07 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.226165+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 24, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 05 07 08 00 00 07"}
+{"timestamp": "2026-10-27T11:57:50.230238+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:50.236013+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 25, "operation": "GET_FEATURE", "ioctl": "0xc0084807", "buffer_hex": "07 00 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:50.240118+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 25, "operation": "GET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 26 58 09 15 00 23 7b"}
+{"timestamp": "2026-10-27T11:57:50.243727+00:00", "event": "button_delay", "phase": "verify", "milliseconds": 2}
+{"timestamp": "2026-10-27T11:57:50.250445+00:00", "event": "button_feature_intent", "phase": "verify", "ordinal": 26, "operation": "SET_FEATURE", "ioctl": "0xc0084806", "buffer_hex": "07 18 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:50.255494+00:00", "event": "button_feature_result", "phase": "verify", "ordinal": 26, "operation": "SET_FEATURE", "returned_length": 8, "buffer_hex_after": "07 18 00 00 00 00 00 00"}
+{"timestamp": "2026-10-27T11:57:50.259752+00:00", "event": "button_config_complete", "outcome": "written-and-read-back", "before_hex": "21 22 23 2e 2e 35 00 26", "after_hex": "21 22 23 24 25 35 00 26", "backup_file": "button-backup.json", "behavior_verified": false, "complete_configuration_backup": false, "extension_records_modified": false}

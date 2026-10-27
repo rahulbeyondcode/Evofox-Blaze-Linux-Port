@@ -1,0 +1,36 @@
+{
+  "application_sha256": "9eec736ee629ff9d0684f787a270afe86d064fdcf23e7eb11f921dc7844eee55",
+  "helper_entry": "0x413d60",
+  "helper_evidence_id": "ev_149982505d5b6cdaf82c64a4cb969f0617630a67499340e9c0b1799b3d1644db",
+  "serializer_entry": "0x422070",
+  "serializer_evidence_id": "ev_4c1603b7dd3456d34089b5719646087cb11ac79250e64b2c0a5a9e385926795f",
+  "serializer_finish_call": "0x42a161",
+  "builder_entry": "0x413910",
+  "first_builder_arguments": [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+  "second_builder_arguments": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  "first_frame_hex": "07 18 10 00 00 00 00 00",
+  "delay_milliseconds": 5,
+  "second_frame_hex": "07 18 00 00 00 00 00 00",
+  "direct_helper_call_sites": ["0x421e46", "0x42a161", "0x448254", "0x44cda6"],
+  "instruction_checks": [
+    {"address": "0x413d77", "bytes": "6a 01", "meaning": "second builder argument is one, yielding flag 0x10, not command 0x20"},
+    {"address": "0x413d7e", "bytes": "e8 8d fb ff ff", "meaning": "first call to builder 0x413910"},
+    {"address": "0x413d83", "bytes": "6a 05", "meaning": "Sleep argument is five milliseconds"},
+    {"address": "0x413da2", "bytes": "e8 69 fb ff ff", "meaning": "second call to builder 0x413910, all-zero arguments"},
+    {"address": "0x42a142", "bytes": "e8 c9 98 fe ff", "meaning": "last looped block write before serializer finishes"},
+    {"address": "0x42a161", "bytes": "e8 fa 9b fe ff", "meaning": "serializer calls 0x413d60 after configuration block writes"}
+  ],
+  "independent_objdump_recheck_date": "2026-11-02",
+  "public_capture": {
+    "sha256": "db3a3ba224069226ce75d9ded8a37d9363e71deb15737d749a2f951ad637c9c8",
+    "finish_packet_pairs": [[1935, 1939], [4025, 4029], [4195, 4197]],
+    "preceding_commit_packets_for_first_two": [1931, 4021],
+    "following_read_start_packet": 1943,
+    "excluded_later_command20_packet": 4199,
+    "limitation": "Related ANKO product, not a Blaze runtime-activation, persistence or safety test"
+  },
+  "candidate_interpretation": "End-of-settings/runtime-reload candidate, not a proven firmware command meaning",
+  "hardware_activation_tested": false,
+  "automatic_gui_activation_enabled": false,
+  "limitation": "May activate all stored settings; no whole-device backup, no proof of other firmware side effects. No new live operation is authorized by these observations."
+}
