@@ -1,0 +1,14 @@
+{
+  "operation": "one-fixed-shortcut-metadata-read",
+  "user_selected_approval": "Approve metadata read",
+  "approval_consumed": true,
+  "base_blocks": ["0x0008", "0x0068", "0x0070", "0x0078"],
+  "descriptor_range": "0x00a0..0x02cf",
+  "set_feature_count": 1332,
+  "get_feature_count": 592,
+  "settings_commits": 0,
+  "payload_read_authorized": false,
+  "write_or_restore_authorized": false,
+  "input_monitoring_authorized": false,
+  "staged_read_risk_explicitly_acknowledged": true
+}

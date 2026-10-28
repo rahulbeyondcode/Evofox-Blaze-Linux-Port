@@ -1,0 +1,13 @@
+{
+  "operation": "one-fixed-shortcut-payload-read",
+  "user_selected_approval": "Approve 96-byte read",
+  "approval_consumed": true,
+  "base": "0x0400",
+  "length": 96,
+  "set_feature_count": 216,
+  "get_feature_count": 96,
+  "settings_commits": 0,
+  "write_or_restore_authorized": false,
+  "input_monitoring_authorized": false,
+  "staged_read_risk_explicitly_acknowledged": true
+}
