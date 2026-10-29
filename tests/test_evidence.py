@@ -5,10 +5,25 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
-from evofox_blaze.evidence import read_evidence_file
+from evofox_blaze.evidence import read_evidence_file, read_shortcut_journal
 
 
 class EvidenceTests(unittest.TestCase):
+    def test_larger_shortcut_journal_limit_does_not_expand_general_evidence_reads(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "shortcut.jsonl"
+            path.write_bytes(b'{"event":"shortcut_config_session"}\n' + b" " * (1024 * 1024))
+            with self.assertRaises(ValueError):
+                read_evidence_file(path)
+            self.assertGreater(len(read_shortcut_journal(path)), 1024 * 1024)
+            path.write_bytes(b'{"event":"state_session"}\n' + b" " * (1024 * 1024))
+            with self.assertRaises(ValueError):
+                read_shortcut_journal(path)
+            link = path.with_name("link")
+            link.symlink_to(path)
+            with self.assertRaises(ValueError):
+                read_shortcut_journal(link)
+
     def test_regular_file_is_read_with_a_bound(self):
         with tempfile.TemporaryDirectory() as temporary:
             path = Path(temporary) / "evidence.json"

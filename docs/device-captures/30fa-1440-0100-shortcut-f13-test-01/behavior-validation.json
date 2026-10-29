@@ -1,0 +1,16 @@
+{
+  "source": "user report with two screenshots, 2026-10-28",
+  "test_mapping": "UI button 4 / native slot 5: F13 at 0x0438",
+  "user_report": "It opened the settings of my PC.",
+  "screenshot_observations": [
+    "Desktop Settings window opened to the Power page over the Blaze app",
+    "Shortcut recorder shows no shortcut recorded and stopped because its window lost focus"
+  ],
+  "interpretation": "Consistent with the F13 test being interpreted as Tools by the desktop keymap and intercepted to open Settings. Supports test-key emission from the tail record; not a raw input-event capture.",
+  "replug_confirmed_by_this_report": false,
+  "ctrl_shift_down_behavior_verified": false,
+  "modifier_release_behavior_verified": false,
+  "input_events_monitored": false,
+  "additional_device_operation_authorized_or_performed": false,
+  "restore_authorized_or_performed": false
+}
