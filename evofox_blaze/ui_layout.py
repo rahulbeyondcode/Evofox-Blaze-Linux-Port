@@ -74,10 +74,14 @@ BUTTON_LABELS = ("Left Click", "Right Click", "Middle Click", "Forward",
                  "Backward", "DPI Loop", "LED Loop", "Rapid Fire")
 BUTTON_CONTROLS = tuple(
     Control(f"button-{i + 1}", f"Button {i + 1}: {label}",
-            Rect(186 if i < 4 else 657, (234, 309, 383, 458)[i % 4], 181, 40),
-            limitation="Button assignment is not implemented. Shown assignment is a reference example, not mouse state.")
+             Rect(186 if i < 4 else 657, (234, 309, 383, 458)[i % 4], 181, 40),
+             "button",
+             limitation=("Choose an assignment directly; Apply reads, backs up and programs the mouse."
+                         if i < 7 else "Menu preview only: physical rapid-fire slot 9 is not yet programmable."))
     for i, label in enumerate(BUTTON_LABELS)
-) + (Control("music", "Music-lighting", Rect(12, 523, 80, 67),
+) + (Control("read-assignments", "Read mouse assignments…", Rect(657, 510, 292, 32), "read-assignments"),
+     Control("operation-details", "Error details…", Rect(866, 550, 126, 28), "operation-details"),
+     Control("music", "Music-lighting", Rect(12, 523, 80, 67),
              limitation="Music-reactive lighting is not implemented; no audio is captured."),)
 PERFORMANCE_CONTROLS = tuple(
     Control(f"polling-{hz}", f"{hz} Hz", Rect(x, 247, 55, 35), "polling")

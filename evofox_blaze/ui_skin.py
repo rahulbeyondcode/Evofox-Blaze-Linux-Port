@@ -13,6 +13,12 @@ import math
 from .ui_layout import HEIGHT, WIDTH, TABS, PROFILES, BUTTON_LABELS
 
 
+# Display-only coordinates on the supplied illustration, not device event IDs.
+MOUSE_MARKERS = ((1, 457, 246), (2, 551, 246), (3, 503, 242),
+                 (4, 414, 318), (5, 425, 363), (6, 503, 307),
+                 (7, 503, 342), (8, 425, 240))
+
+
 class Skin:
     def __init__(self, directory, mouse_image=None):
         import gi
@@ -181,13 +187,23 @@ class Skin:
         ctx.paint()
         ctx.restore()
 
-    def text(self, ctx, text, x, y, width=200, height=20, size=13, center=False, color="#eeeeee"):
+    def text(self, ctx, text, x, y, width=200, height=20, size=13, center=False, color="#eeeeee", wrap=False,
+             ellipsize=False):
         layout = self.PangoCairo.create_layout(ctx)
         font = self.Pango.FontDescription(self.font_family)
         font.set_absolute_size(size * self.Pango.SCALE)
         layout.set_font_description(font)
         layout.set_text(str(text), -1)
+        if wrap:
+            layout.set_width(round(width * self.Pango.SCALE))
+            layout.set_height(round(height * self.Pango.SCALE))
+            layout.set_wrap(self.Pango.WrapMode.WORD_CHAR)
+            layout.set_ellipsize(self.Pango.EllipsizeMode.END)
         _, logical = layout.get_pixel_extents()
+        if ellipsize and not wrap and logical.width > width:
+            layout.set_width(round(width * self.Pango.SCALE))
+            layout.set_ellipsize(self.Pango.EllipsizeMode.END)
+            _, logical = layout.get_pixel_extents()
         tx = x + (width - logical.width) / 2 if center else x
         ty = y + (height - logical.height) / 2
         ctx.save()
@@ -249,9 +265,7 @@ class Skin:
         ctx.restore()
         if page == "buttons":
             # Markers follow the supplied illustration's button locations.
-            for label, cx, cy in ((1, 479, 246), (2, 551, 246), (3, 505, 269),
-                                     (4, 414, 318), (5, 418, 363), (6, 505, 315),
-                                     (7, 505, 356), (8, 436, 257)):
+            for label, cx, cy in MOUSE_MARKERS:
                 ctx.move_to(cx, cy - 12)
                 for angle in (-30, 30, 90, 150, 210, 270):
                     a = math.radians(angle)
@@ -265,7 +279,8 @@ class Skin:
                 self.text(ctx, label, cx - 12, cy - 11, 24, 22, 14, True)
 
     def draw(self, ctx, page="buttons", hover=None, focus=None, polling=None,
-             generated_mouse=False, can_apply=False):
+             generated_mouse=True, can_apply=False, button_labels=None, button_message=None, assignment_source=None,
+             has_error=False):
         base = {"buttons": "main_normal", "macros": "mac_normal",
                 "performance": "advanced_normal", "backlight": "led_null"}[page]
         ctx.set_source_surface(self.atlases[base], 0, 0)
@@ -293,10 +308,32 @@ class Skin:
         if generated_mouse:
             self.generated_mouse(ctx, page)
         if page == "buttons":
-            for i, label in enumerate(BUTTON_LABELS):
+            for i, label in enumerate(button_labels if button_labels is not None else BUTTON_LABELS):
                 self.text(ctx, label, 222 if i < 4 else 693, (236, 311, 385, 460)[i % 4],
-                          144, 35, 13, True)
+                          144, 35, 13, True, ellipsize=True)
             self.text(ctx, "Music-lighting", 5, 580, 100, 20, 13, True)
+            if button_message:
+                self.text(ctx, button_message, 185, 547, 665 if has_error else 805, 40, 12,
+                          color="#c3dbe4", wrap=True)
+            if has_error:
+                ctx.set_source_rgb(0.035, 0.10, 0.14)
+                ctx.rectangle(866, 550, 126, 28)
+                ctx.fill_preserve()
+                ctx.set_source_rgb(0.06, 0.60, 0.75)
+                ctx.set_line_width(1)
+                ctx.stroke()
+                self.text(ctx, "Error details…", 866, 550, 126, 28, 12, True)
+            ctx.set_source_rgb(0.025, 0.10, 0.15)
+            ctx.rectangle(657, 510, 292, 32)
+            ctx.fill_preserve()
+            ctx.set_source_rgb(0.06, 0.60, 0.75)
+            ctx.set_line_width(1)
+            ctx.stroke()
+            self.text(ctx, "Read mouse assignments…", 657, 510, 292, 32, 13, True)
+            if assignment_source is None:
+                assignment_source = "Reference preview — not mouse state"
+            if assignment_source:
+                self.text(ctx, assignment_source, 186, 510, 181, 32, 11, color="#a8c8d7", wrap=True)
         elif page == "performance":
             self.performance(ctx, polling)
         elif page == "macros":
@@ -375,7 +412,7 @@ class Skin:
             self.patch(ctx, "led_normal", rect)
         self.patch(ctx, "led_down", (615, 466, 12, 12))
 
-    def export(self, destination, scale=1, generated_mouse=False):
+    def export(self, destination, scale=1, generated_mouse=True):
         from .ui_layout import PAGES
         destination = Path(destination)
         destination.mkdir(parents=True, exist_ok=True)
