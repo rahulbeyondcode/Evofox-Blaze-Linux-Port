@@ -12,6 +12,7 @@ from pathlib import Path
 import sys
 import time
 
+from .activation import NOTICE, activate_verified_change, activation_fields, check_activation_option
 from .evidence import read_evidence_file
 from .feature_read import Journal, check_host, load_baseline, select_target, validated_handle
 from .probe import enumerate_devices
@@ -120,14 +121,17 @@ def _write_block(fd, data, record):
             raise ValueError("Setting-write result is short or changed; state may be uncertain")
 
 
-def change_setting(target, field, value, capture: Path, recheck, *, accept_write_risk=False, restore_from=None):
+def change_setting(target, field, value, capture: Path, recheck, *, accept_write_risk=False, restore_from=None,
+                   accept_activation_risk=False):
     """Fresh read -> durable partial backup -> one write -> fresh readback.
 
-    On failure, stop. Never retry, blindly roll back, or send guessed activation
-    commands. Restore is a separate opt-in operation and refuses intervening edits.
+    On failure, stop. Never retry or blindly roll back. The source-matched
+    activation candidate needs its own opt-in after a verified new polling
+    change. Restore stays separate, refuses intervening edits and never activates.
     """
     if accept_write_risk is not True:
         raise ValueError("Explicit setting-write risk acknowledgement is required")
+    check_activation_option(accept_activation_risk, restore=restore_from is not None, field=field)
     check_host()
     if target.identity() != IDENTITY:
         raise ValueError("Setting changes require the exact captured Blaze identity and descriptor")
@@ -142,8 +146,9 @@ def change_setting(target, field, value, capture: Path, recheck, *, accept_write
     journal = Journal(capture / "configuration.jsonl")
     try:
         journal.record("config_session", identity=target.identity(), field=field, value=value,
-                       operation="restore" if restore_from is not None else "change",
-                       accepted_write_risk=True, scope="Base 0018, 8 bytes only; no full-device backup")
+                        operation="restore" if restore_from is not None else "change",
+                        accepted_write_risk=True, scope="Base 0018, 8 bytes only; no full-device backup",
+                        **({"accepted_activation_risk": True} if accept_activation_risk else {}))
         with validated_handle(target, journal.record, recheck, writable=True) as fd:
             before = _read_on_validated_handle(fd, lambda event, **fields: journal.record(event, phase="before", **fields))
             if required is not None and before not in (required, restored):
@@ -154,6 +159,7 @@ def change_setting(target, field, value, capture: Path, recheck, *, accept_write
             if before == after:
                 result = {"outcome": "no-change", "before_hex": before.hex(" "), "after_hex": after.hex(" ")}
             else:
+                journal.progress("backup")
                 _save_backup(capture / "original-state.json", before, after, field, value)
                 journal.record("config_backup_durable", filename="original-state.json",
                                before_sha256=hashlib.sha256(before).hexdigest())
@@ -161,9 +167,13 @@ def change_setting(target, field, value, capture: Path, recheck, *, accept_write
                 verified = _read_on_validated_handle(fd, lambda event, **fields: journal.record(event, phase="verify", **fields))
                 if verified != after:
                     raise ValueError("Readback differs from intended bytes; backup retained, no automatic recovery")
+                if accept_activation_risk:
+                    recheck(target)
+                    activate_verified_change(fd, journal.record)
                 result = {"outcome": "written-and-read-back", "before_hex": before.hex(" "),
                           "after_hex": after.hex(" "), "backup_file": "original-state.json"}
         result.update(behavior_verified=False, complete_configuration_backup=False)
+        result.update(activation_fields(accept_activation_risk, before != after))
         journal.record("config_complete", **result)
         return result
     except (OSError, ValueError, KeyError, TypeError) as error:
@@ -189,8 +199,11 @@ def main(argv=None):
     parser.add_argument("--baseline", type=Path, required=True)
     parser.add_argument("--capture", type=Path, required=True, help="NEW directory for journal and durable partial backup")
     parser.add_argument("--device", help="optional baseline-matching hidraw path")
+    parser.add_argument("--accept-activation-risk", action="store_true", help=NOTICE)
     args = parser.parse_args(argv)
     try:
+        check_activation_option(args.accept_activation_risk, restore=args.restore_backup is not None,
+                                field="dpi-stage" if args.dpi_stage is not None else "polling")
         check_host()
         baseline, _ = load_baseline(args.baseline)
         if baseline.identity() != IDENTITY:
@@ -202,7 +215,7 @@ def main(argv=None):
         field = "dpi-stage" if args.dpi_stage is not None else "polling"
         value = args.dpi_stage if args.dpi_stage is not None else args.polling
         result = change_setting(target, field, value, args.capture, recheck, accept_write_risk=True,
-                                restore_from=args.restore_backup)
+                                restore_from=args.restore_backup, accept_activation_risk=args.accept_activation_risk)
     except (OSError, ValueError, KeyError, TypeError) as error:
         print(f"Configuration operation failed: {error}. No automatic retry or recovery.", file=sys.stderr)
         return 1

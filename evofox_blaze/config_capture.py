@@ -4,6 +4,8 @@ import hashlib
 import json
 
 from .config_write import plan_change
+from .activation import activation_completion_matches, activation_fields, check_activation_option
+from .activation_capture import consume_activation
 from .read_preview import decode_state_block
 from .state_capture import consume_state_read
 from .state_read import IDENTITY, SET_FEATURE
@@ -35,6 +37,8 @@ def decode_config_journal(raw: bytes):
     if (session["identity"] != IDENTITY or session["accepted_write_risk"] is not True
             or session["operation"] not in ("change", "restore")):
         raise ValueError("Configuration journal identity or acknowledged operation differs")
+    activation_requested = check_activation_option(session.get("accepted_activation_risk", False),
+                                                   restore=session["operation"] == "restore", field=session["field"])
     handle = take("handle_validated")
     if handle["identity"] != IDENTITY or handle["bus"] != 3:
         raise ValueError("Configuration handle does not match the exact baseline")
@@ -60,18 +64,22 @@ def decode_config_journal(raw: bytes):
                 raise ValueError("Configuration write result is short or inconsistent")
         if consume_state_read(phase_reader("verify")) != after:
             raise ValueError("Saved readback differs from the intended block")
+        if activation_requested:
+            consume_activation(take, verified_change=True)
     complete = take("config_complete")
     outcome = "written-and-read-back" if written else "no-change"
     if (position != len(events) or complete["outcome"] != outcome
             or bytes.fromhex(complete["before_hex"]) != before or bytes.fromhex(complete["after_hex"]) != after
+            or not activation_completion_matches(complete, activation_requested, written)
             or complete["behavior_verified"] is not False or complete["complete_configuration_backup"] is not False):
         raise ValueError("Configuration completion is inconsistent or contains extra operations")
     return {
         "mode": "offline-configuration-inspection", "identity": session["identity"],
         "capture_sha256": hashlib.sha256(raw).hexdigest(), "base": "0x0018", "length": 8,
-        "set_feature_count": 46 if written else 18, "get_feature_count": 16 if written else 8,
+        "set_feature_count": (46 if written else 18) + (2 if activation_requested and written else 0),
+        "get_feature_count": 16 if written else 8,
         "operation": session["operation"], "outcome": outcome,
         "before_hex": before.hex(" "), "after_hex": after.hex(" "),
         "behavior_verified": False, "hardware_field_validation": False,
-        **decode_state_block(after),
+        **decode_state_block(after), **activation_fields(activation_requested, written),
     }
