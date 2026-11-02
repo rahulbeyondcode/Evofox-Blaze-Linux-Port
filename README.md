@@ -3,9 +3,16 @@
 A native Linux configuration utility for the EvoFox Blaze gaming mouse.
 The goal is a GUI for DPI, lighting, polling rate, buttons, profiles, and macros.
 **Working slice:** experimental state reads, polling-setting changes, durable
-eight-byte backups, readback, and scoped restore. The polling change/restore
-path has been exercised on the attached Blaze. **The full app is not finished:**
-lighting, physical CPI values, buttons, profiles, and macros are still missing.
+eight-byte backups, readback, scoped restore, native built-in button assignments,
+and experimental on-device keyboard chords.
+Polling change/restore was exercised; native side-button Back/Forward was written,
+read back, and user-tested after physical replug. **The full app is not finished:**
+custom sequences/macros, the physical rapid-fire button's assignment,
+lighting, physical CPI values and profiles are still missing.
+
+See the [feature-by-feature offline audit](docs/feature-audit.md) for tested
+workflows, reproduced UI fixes, and remaining nonfunctional/reference controls.
+Passing tests do **not** mean every visible feature is implemented or hardware-validated.
 
 ## Working now
 
@@ -24,12 +31,32 @@ python3 -m evofox_blaze.gui
 
 The default window now recreates the original **Button, Macro, Performance, and
 Backlight** screens with the reference skin and a resizable layout. Unsupported
-settings are visible but disabled; initial values are reference examples, **not
-live mouse state**. Press **F1** or right-click for the existing device controls.
+settings remain disabled except for explicitly requested no-op assignment-menu
+placeholders. Button assignments recover the **latest verified saved journal**
+on startup, marked **saved, not live**. Click **Read mouse assignments…** on the
+Button page to explicitly read the current native actions and supported keyboard
+shortcuts. Without saved evidence, values remain unknown rather than invented.
+Other unimplemented settings still show reference examples, **not live mouse
+state**. Press **F1** for the optional device controls. The right-click
+context menu has been removed.
 The original controls can also be opened directly with `--diagnostics`.
 Reference artwork is staged locally in `.work/ui-skin`, not redistributed as
 MIT-licensed assets. See [UI setup, controls, and preview exports](docs/ui-development.md)
-for preparing it on another checkout and using the supplied mouse illustration.
+for preparing it on another checkout. The supplied `MouseImage.png` illustration
+is now the default; `python3 -m evofox_blaze.gui --reference-mouse` uses the
+preserved original mouse artwork instead. Neither original image is overwritten.
+Drag the top header or center logo to move the window; drag any edge or corner
+to resize. Routine assignment edits keep a generic footer; operation progress and
+errors still appear there.
+Mouse operations now show a dark, Blaze-styled loading overlay. It blocks the
+underlying controls, keyboard shortcuts and normal window closure until the
+operation and saved-result checks finish, then disappears automatically. Recorder
+Save is draft-only and does not show this loading screen. Routine hover tooltips
+are removed; unavailable items simply say **Not implemented**.
+One line beneath the spinner now shows the actual phase—reading, backing up,
+writing, verifying or sending activation—with cycling `.`, `..`, `...` dots.
+The mouse may respond before full readback finishes; the overlay waits for all
+verification rather than claiming completion early.
 
 The native GTK 3 app needs GTK and Python GObject bindings (`gi`); both are
 already available on this development host. No host packages were installed.
@@ -45,7 +72,8 @@ Each operation checks the exact identity/descriptor and holds a cooperative
 device lock. The UI remains responsive and prevents normal window closure while
 an operation is in progress. **Written/read back is not measured physical polling
 frequency.** Backups cover block `0x0018`, not the whole mouse. Lighting, CPI,
-buttons and macros are not exposed as working controls. Core CLI tools do not
+custom sequences and macros cannot yet be written to the mouse. Keyboard chords
+use the separate experimental backend described below. Core CLI tools do not
 require GTK. `--capture <saved-journal>` opens evidence without device access.
 
 ### CLI probes and offline inspection
@@ -102,10 +130,173 @@ python3 -m evofox_blaze.state_read --help
 python3 -m evofox_blaze.config_write --help
 ```
 
-Only fixed block `0x0018` is accessible. The CLI also implements already-enabled
+The state/polling backend still accesses only `0x0018`. A separate native-button
+backend accesses only `0x0008`. The CLI also implements already-enabled
 DPI-stage **index** changes, tested offline but not yet exercised as a hardware
 setting change. It does not set physical CPI values. No arbitrary addresses,
 lighting writes, firmware operations, or full-image replay are available.
+
+### Native button remapping — 2026-10-27
+
+1. Launch `python3 -m evofox_blaze.gui`.
+2. Click an assignment directly on **Button**. No F1, prerequisite read,
+   assignment dialog or **Keep draft** button is needed.
+3. Choose a built-in action from the dropdown or its right-hand **Extend** menu.
+   Selection changes only the in-app assignment. An asterisk marks pending edits;
+   **Cancel** discards them. Returning to the starting option removes that row's
+   change; Apply disables when no changed rows remain, even after trying several
+   other options, once a real read or verified Apply establishes a baseline.
+   At startup, no board read is performed: the latest verified saved assignments
+   are recovered from the app's evidence directory. A later failed/incomplete
+   operation prevents stale fallback. Without history, choosing Left/Right then
+   Apply still works even if they match the old artwork defaults.
+   **Read mouse assignments…** on the Button page explicitly reads the native
+   table and supported shortcut records, so chord names appear instead of just
+   Stored shortcut. This separately confirmed staged read makes no settings commit;
+   unknown allocation layouts are refused. Button 8's native assignment remains
+   outside the supported scope and is not guessed from its descriptor.
+4. Click **Apply** to authorize the selected programming operation directly,
+   without another confirmation dialog. It validates the device, reads the real
+   table, backs it up, writes only the selections and checks complete readback.
+   Progress/errors stay in the main window. Apply disables after verified success;
+   failure retains the selection without retrying automatically.
+5. After completion, physically unplug for about ten seconds and reconnect.
+   The user confirmed Back/Forward working after this step; immediate activation
+   is not established. No automatic reset/finalize command is sent.
+
+All eight rows open the same dropdown. Seven vendor-UI assignment rows support
+programming through native slots `1..6,8`. The eighth row (physical rapid-fire,
+slot `9`) is menu preview only: it lies outside this backed-up block. Actions
+implemented in the menu are Left/Middle/Right, Back/Forward,
+Double Click, Rapid Fire, DPI Loop/+/− and LED Loop. **Only the side-button
+Back/Forward change has behavioral validation**; other targets are source-derived.
+At least one standard button must remain Left Click.
+
+Button 8 is restricted by current backend coverage, not proven hard-wired to
+Rapid Fire. Its initial label is a reference example. Static analysis identifies
+a candidate in the next mixed-settings block, but that region still needs its
+own explicitly authorized read/backup/write/restore work before remapping is safe.
+
+**Extend**, **Media**, **Macro**, and **Profile Selection** have native cascading
+submenus, opened by hover/click or keyboard navigation. Show desktop, every Media
+action, the hardcoded Office/Game 1/Game 2/Media profile entries, and
+**No macros found** are currently clickable placeholders: they only close the
+menu and never produce an assignment or device write. Opening the app or menu
+performs **no device access**; the original table is read only when Apply is
+clicked (or through the optional diagnostic read).
+
+**Shortcut** now opens a Blaze-styled recorder rather than a placeholder:
+
+1. Start with three visible key boxes. Use **+ Add box** for up to six, or **×**
+   to delete unused boxes (at least one remains).
+2. Click **Record** or a particular box. **Press and release one key at a time.**
+   Each release fills the box and activates the next empty box.
+3. **Save** stages it on the selected button in the app, marked with `*`.
+   Cancel/close discards the editor's unsaved recording. Reopening Shortcut shows
+   that button's existing draft. The main **Cancel** discards all button drafts.
+
+For **Ctrl+Alt+Down**: tap Ctrl and release it; tap Alt and release it; then tap
+Down and release it. **Do not hold them together during entry**. The preview shows
+the combined shortcut the mouse will send. Every box must be filled and the chord
+must contain distinct modifiers and exactly one regular key before Save enables.
+There is no accordion, all-keys dropdown or modifier-checkbox panel. Click a filled
+box to replace its key; Re-record clears the editor boxes, not the existing button
+assignment. Focus loss/Stop/timeout stops capture and keeps completed boxes; click
+a box or Record to resume. No global grab or desktop-shortcut changes are used.
+
+If Pop!_OS opens its launcher when you tap the Windows key, click the recorder's
+**Windows / Super** button instead. It explicitly inserts **left Windows/Super**
+into the armed box or first empty box without pressing a desktop shortcut. To
+replace a filled box, click that box first. After focus loss/Stop, this insertion
+does not restart recording; click the next box or Record to continue.
+
+Recording is opt-in, only inside the focused editor, with no global hooks or
+disk logging. Focus loss, Stop, close and a 20-second timeout stop recording.
+It supports one standard key with optional Ctrl/Shift/Alt/Super modifiers, not
+multi-step macros. System-reserved shortcuts may be intercepted by the desktop.
+
+4. Close the recorder with **Save**, then click the main **Apply**. Save never
+   contacts the mouse; Apply explicitly authorizes a fresh-read/backup/write/full
+   readback transaction. Mixed native/shortcut drafts use one combined transaction,
+   never just the native subset. After verified success Apply disables. Returning
+   to the verified starting chord also removes a pending change.
+5. Wait for completion, then unplug for about ten seconds and reconnect. Test the
+   physical mouse button in the application where you want the combination to work.
+
+**Experimental:** only the inspected allocation layout and seven supported rows
+are accepted. Unknown/shared records are refused, not relocated. Original records,
+auxiliary data and allocation metadata remain untouched; new chords use distinct
+backed-up tail slots. F13 was written/read back, and the user reported the test
+opening desktop Settings, consistent with the desktop's Tools binding. This is
+not a raw input capture or validation of every chord, modifier release or persistence.
+On 2026-11-02 the user reported **Ctrl+Alt+Down working** in the prompted mouse-button
+workspace-switching test. This is a behavior report, not a raw event capture;
+replug persistence and modifier release were not explicitly confirmed separately.
+Desktop-reserved keys may open another app or switch workspace. Drafts do not
+survive app exit.
+
+This is on-device programming, not an evdev/uinput service. It does **not** yet
+program custom sequences or macros. Existing original shortcut
+records remain untouched. Native-only changes replace just their button-table link
+with a built-in assignment. The original `2e` links are retained in the exact-block
+backup. **F1 → Restore button backup…** is a separate confirmed operation that
+refuses intervening edits. Native-button restore has offline coverage, not a
+live restore test. **F1 → Restore shortcut backup…** separately confirms restoration
+from a `shortcut-backup.json`, refusing intervening edits. Shortcut restore has
+offline coverage only; no live restore has been authorized or executed. Backups
+are partial, not a complete backup of existing macros.
+
+Saved evidence can be inspected without contacting the mouse:
+
+```sh
+python3 -m evofox_blaze.button_capture --capture docs/device-captures/30fa-1440-0100-button-read-01/button-read.jsonl
+python3 -m evofox_blaze.button_config_capture --capture docs/device-captures/30fa-1440-0100-button-remap-01/button-configuration.jsonl
+python3 -m evofox_blaze.button_write --help
+```
+
+The [button checkpoint](docs/reverse-engineering.md#native-button-checkpoint--2026-10-27)
+records the precise scope, current stored table and remaining shortcut work.
+Current validation: **459 tests passed** on a private authenticated Xvfb display, including native cascading-menu and
+direct-Apply checks, GTK rendering, fault injection, exact backup/restore
+simulation, combined shortcut Apply, net-change baselines and immutable evidence
+checks. No live mouse operation was performed for the latest GUI integration.
+Native Back/Forward has the separate user-reported after-replug validation above.
+
+Run the full suite without desktop popups using
+`python3 -m tools.run_virtual_tests --xvfb /path/to/trusted/Xvfb`.
+See [headless testing](docs/ui-development.md#tests-and-visual-review) for the local
+executable path and a no-display fallback that skips GUI coverage.
+
+### Experimental immediate activation
+
+To try the built-in reload candidate after a new Apply:
+
+```sh
+python3 -m evofox_blaze.gui --experimental-activation
+```
+
+**Off by default; broader firmware effects remain experimental.** The user reports
+the prompted Ctrl+A assignment working immediately without unplug/replug after
+opt-in GUI Apply. This is a user behavior report, not raw input or whole-device
+validation. Startup, menus, recording and Save
+stay offline. The Button page shows an armed warning. Apply authorizes the selected
+native/shortcut change **plus** the fixed two-report activation candidate after
+durable backup and matching readback, using the same locked handle. Performance's
+polling confirmation also explains the extra scope. This may activate **all stored
+settings**, not only the edited button; there is no whole-device backup.
+
+On success the UI says **activation sequence sent**, not behavior verified. Test
+the changed assignment before reconnecting. Any failure stops without retry,
+cleanup or automatic rollback; drafts and backup remain available for review.
+No-change results send no activation. Reads, restores, DPI-stage CLI operations
+and the old F13 field-test scope never acquire activation implicitly.
+
+The vendor sequence is independently corroborated by a related-product capture,
+and now has the user-reported no-replug result above. No agent-side live activation
+test or independent inspection of that GUI transaction was performed.
+Normal startup without the flag keeps the previous Apply behavior and reconnect
+guidance. `python3 -m evofox_blaze.activation --preview` remains a safe offline
+preview. See the [integrated activation checkpoint](docs/reverse-engineering.md#opt-in-immediate-activation-integration--2026-11-02).
 
 Preview the recovered brightness field **offline**, using synthetic command
 bytes (not a mouse capture or a command approved for sending):
@@ -136,7 +327,8 @@ python3 -m evofox_blaze.read_preview dpi-state --report-length 8
 
 This prints SET/GET operations and delays, not a hardware read. Only source-
 observed regions can be selected. Only the separate fixed `0x0018` transport
-has been exercised on this Blaze; other regions remain offline.
+from that preview has been exercised on this Blaze; its other regions remain
+offline. The separate native-button backend has also exercised fixed `0x0008`.
 
 ## Current evidence
 
@@ -179,7 +371,7 @@ restore, not physical frequency, power-cycle persistence, or a full backup.
 - Preserved sanitized hardware captures and static-analysis fixtures. REA/Ghidra
   investigations are reproducible through checked-in query plans; temporary
   tool installations, full analysis bundles, and extracted vendor files are not committed.
-- **159 tests pass locally on Python 3.10.12**, including all four native GTK
+- **159 tests passed at the 2026-10-25 checkpoint on Python 3.10.12**, including all four native GTK
   screens, scaled hit targets, window shrinking, offline exports, disabled controls,
   polling drafts and evidence refresh/error clearing with no device access. The optional window
   smoke test skips where GTK or a display is absent. Native Linux-header ioctl
@@ -212,8 +404,13 @@ restore, not physical frequency, power-cycle persistence, or a full backup.
 6. **Next:** exercise the DPI-stage index operation with separate consent;
    recover and validate physical CPI values and lighting readback before enabling
    those settings. Brightness's candidate byte `0x003f` remains inaccessible.
-7. Expand owned-field backups, then buttons, profiles, and macros. A full-device
-   backup and physical behavior/persistence tests are still missing.
+7. **Native button milestone:** fixed-table built-in assignments and GUI drafts
+    implemented; side Back/Forward confirmed after replug. Experimental chord
+     backup/encoding/Apply/restore is implemented; Ctrl+Alt+Down now has a successful
+     user behavior report. **Current priority:** validate immediate activation
+     without replug before connecting the separate candidate sequence to Apply.
+     Confirm modifier-release details and investigate physical rapid-fire slot coverage next, then
+   broader profiles/macros. A full-device backup is still missing.
 
 Do not execute the Windows software, replay generic A825 transactions, detach
 the mouse driver, change system permissions, or issue firmware/bootloader/

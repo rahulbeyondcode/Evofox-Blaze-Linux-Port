@@ -364,6 +364,167 @@ lighting or rapid-fire controls emit separate host-visible events. Those need
 a separately authorized, device-specific read-only test. The existing UI's
 button labels are not a substitute for that evidence.
 
+## Native button assignments — 2026-10-27
+
+The separate `button_read`/`button_write` backend is fixed to `0008`, length 8.
+It does not expand the original state reader's ranges. The writer call at
+`0x423626` supplies this block after `0x423154` advances the logical base by 8.
+The low five bits are native actions; captured flag `20` is preserved. Other
+unassigned bytes, including spare slot 7, are copied from a **fresh read**, not
+from reference defaults. Supported UI slots come from the exact shipped mapping
+`1,3,2,5,4,8,6,9`; slot 9 is outside this block and remains inaccessible.
+
+The [fixture](../tests/fixtures/vendor-button-observations.json) contains the
+source-derived built-in code table, exact artifact hashes and Evidence IDs.
+The public capture corroborates two `0008`/8-byte writes, not a button read.
+The explicitly approved Blaze read newly validated that exact read region.
+
+Original table: `21 22 23 2e 2e 35 00 26`. The source routes `2e` through
+per-slot extension descriptors; the user identified their existing side shortcuts
+as Ctrl+Windows+Left/Right. Replacing only those links with Back/Forward produced
+`21 22 23 24 25 35 00 26`, with full readback and durable original-table backup.
+Extension records were never read or modified. The user then confirmed side
+Back/Forward **working after physical replug**. Immediate activation and behavior
+of all other native actions are not established. This was one scoped table commit,
+not a full-image replay or a test of arbitrary keyboard/macro programming.
+
+The scoped backup records both exact tables and requested assignments. Change
+and restore preserve a Left Click assignment on a standard slot. Restore accepts
+only the original or recorded post-change table and refuses intervening edits;
+it preserves opaque original `2e` links without inventing their shortcut data.
+It has offline fault/roundtrip tests but **no live native-restore test yet**.
+The eight-byte backup cannot recover extension records if another tool changes them.
+
+Read: 18 SET / 8 GET, no commit. Change: fresh read, fsynced backup, ten writer
+SETs (including one phase-09 commit), fresh full readback: 46 SET / 16 GET.
+There is no appended phase `10`, command `20`, retry, reset, firmware command or
+input monitor. Exact journals and the separate user behavior report are listed
+in [device captures](device-captures/README.md#native-button-checkpoint--2026-10-27).
+
+## Experimental keyboard chords — 2026-10-28
+
+The separate shortcut backend validates the inspected `0418/0438` allocation
+layout and 56 ten-byte descriptors at `00a0..02cf`. Original records at
+`0400/0408/0410` contain press-only Ctrl+Super+Left/Right and Super+Tab, with
+repeat count one and four ticks per event. The codec and narrow preservation
+planner keep `0400..0437` and allocation metadata untouched. Seven unshared
+40-byte tail slots at `0438 + index*40`, ending before `0550`, are available only
+under that strict policy; this is not an arbitrary memory API or general allocator.
+
+The separately approved F13 transaction changed only `0438/8`, `00c8/8`, `0008/8`
+and fully read back all scoped bytes. The user subsequently reported desktop
+Settings opening, consistent with Tools/F13 interception. This is user behavior
+evidence, not a raw input capture or validation of arbitrary chords/persistence.
+Current recorded table: `21 22 23 24 2e 35 00 26`. No restore was approved or run.
+See the [newest checkpoint](reverse-engineering.md#shortcut-gui-integration-and-user-test-report--2026-10-28)
+for immutable evidence and the experimental GUI Apply/explicit restore workflow.
+The fixed native-only writer remains separate and unchanged in scope.
+
+## Explicit full-assignment display read — 2026-10-28
+
+`assignment_read.py` reuses the inspected-layout snapshot policy without requesting
+new allocations: fixed 74 header blocks, seven original record/auxiliary guard
+blocks, and five blocks for each recognized owned tail record. Scope is 81–116
+eight-byte blocks, 1458–2088 staged SETs / 648–928 GETs, **zero phase-09 commits**.
+It validates device/descriptor/handle, layout and read completions, journals each
+intent durably, and stops on failure with no retry or recovery frames. Unknown or
+shared descriptors are refused, not read through arbitrary pointers. Slot 9's
+action remains outside the scope. This display reader has offline/fault tests,
+not a new recorded live operation. Main-page **Read mouse assignments…** requires
+explicit confirmation; startup recovers only saved journals with no device access.
+
+## End-of-settings / immediate-activation candidate — 2026-11-02
+
+The user requested Apply without repeated physical reconnects. Immediate
+activation is not established as impossible: earlier tests requested replug as
+a conservative workaround, rather than comparing before/after activation.
+
+The exact application serializer `0x422070` calls `0x413d60` at `0x42a161`
+after its configuration block writes. That helper calls builder `0x413910`
+with arguments `(0,1,0,0,0,0,0,0,0,0)`, sleeps **5 ms**, then calls it with
+all-zero arguments:
+
+```text
+07 18 10 00 00 00 00 00
+<5 ms>
+07 18 00 00 00 00 00 00
+```
+
+This is an end-of-settings/runtime-reload **candidate**, not a proven firmware
+meaning. Six instruction-byte checks matched the hash-pinned extracted application
+on 2026-11-02. Retained Ghidra Evidence IDs and call sites are in
+[vendor-activation-observations.json](../tests/fixtures/vendor-activation-observations.json).
+No vendor code was executed. The same fixed pair occurs in the pinned related
+ANKO capture at SET packet pairs `1935/1939`, `4025/4029`, and `4195/4197`;
+the first two follow configuration-write passes. The auditor checks these pairs.
+This related-product evidence does not prove behavior or safety on this Blaze.
+The later `07 20` command at packet `4199` is distinct and is **not** included.
+
+`evofox_blaze.activation` defaults to an offline preview. Its separate experimental
+CLI requires `--activate --accept-activation-risk`, the exact descriptor baseline
+and a new capture directory. It validates/locks/rechecks the handle, durably logs
+intent and sends only the two fixed SETs with the fixed delay. There are no GETs,
+setting-data/phase-09 frames, address/payload parameters, USB reset, driver detach,
+command `20`, retries, cleanup frames or input monitoring. Any failed log,
+completion or delay stops the sequence. `activation_capture` strictly inspects
+the new journal offline; completion says only **sequence-sent**, never behavior
+verified. It creates no configuration backup and may activate **all** stored
+settings, not only the selected button. Other firmware side effects are unproven.
+
+**No live activation operation has been approved or performed.** At this initial
+checkpoint nothing was added to GUI Apply; the newer opt-in integration below
+supersedes that implementation status, not the hardware-validation boundary.
+First establish whether
+a changed assignment already works before replug, then obtain fresh scope-specific
+approval for a single two-report test if needed. Only a successful behavioral
+test can justify integrating the sequence into ordinary Apply. Existing write
+backups/readback and failure safeguards must remain intact.
+
+### Opt-in verified-change integration — 2026-11-02
+
+The separate fixed sequence can now be requested for a **new** native-button,
+shortcut or polling Apply with `--accept-activation-risk` in the relevant writer.
+The GUI arms this policy only with `--experimental-activation`. The existing
+write-risk authorization remains required; no additional confirmation is added
+to direct assignment Apply. The armed warning/tooltip explains the extra two
+SETs and all-stored-settings risk; polling's existing confirmation includes it.
+Arming/startup itself performs no device access.
+
+Order is fresh scoped read → durable partial backup → checked setting writes →
+full matching stored-byte readback → sysfs identity recheck → fixed phase-10,
+5-ms, phase-zero pair → final completion. The validated handle and cooperative
+lock are retained throughout. No new address ranges or additional GETs are added.
+Native/polling changes therefore use **48 SET / 16 GET** instead of 46/16;
+shortcut changes add exactly **two SETs**, with unchanged read and settings-commit
+counts. The readback precedes the candidate; it does not prove firmware behavior
+or the absence of side effects after it. Behavior flags remain false.
+
+Only opted-in sessions contain `accepted_activation_risk: true`. Their ordered
+`activation_begin` (stage `after-verified-readback`), two intent/result pairs,
+5-ms delay and `activation_complete` must pass strict inspection before the outer
+configuration completion is accepted. Completion carries `activation_requested`,
+`activation_outcome` (`sequence-sent` or `skipped-no-change`) and
+`activation_behavior_verified: false`. Legacy journals retain their old shape;
+unexpected, reordered, incomplete or falsely claimed activation is rejected.
+
+Unchanged stored bytes cause **no activation and no new backup**. A failed write,
+backup, readback, identity recheck, activation report or durable log stops without
+retry, cleanup frames or rollback; a partially sent sequence cannot become a
+verified assignment journal or clear GUI drafts. Restores, reads, DPI-stage
+changes and the original `--first-tail-test` reject/omit this extra scope. No
+command `20`, firmware/reset operation, driver detach or input monitor is added.
+
+This is an experimental software path, **not** a live Blaze validation or approval
+for an agent operation. Ordinary Apply remains unchanged without the GUI flag.
+Whether replug is needed and whether the candidate removes that need still require
+a separately authorized physical comparison. Existing captures remain immutable.
+
+Subsequent user report: after the prompted opt-in GUI Ctrl+A assignment test, the
+user confirmed it works **without unplug/replug**. This supersedes behavior being
+wholly pending for that tested workflow, not the limitations above. No agent-side
+live operation, independent transaction inspection or input capture accompanied
+the report. See the [separate behavior record](device-captures/README.md#immediate-activation-user-report--2026-11-02).
+
 ## Unresolved, in implementation order
 
 1. Validate the static profile candidate against a controlled device observation;
